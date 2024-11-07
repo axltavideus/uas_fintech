@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'bottom_nav_bar.dart';
+import 'sign_up.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -48,11 +49,11 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Welcome Section
-              const Row(
+              Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'https://via.placeholder.com/50'), // Replace with actual image URL
+                    backgroundImage:
+                        NetworkImage('https://via.placeholder.com/50'),
                   ),
                   SizedBox(width: 8.0),
                   Column(
@@ -67,8 +68,18 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Spacer(),
                   Icon(Icons.qr_code_scanner),
+                  IconButton(
+                    icon: Icon(Icons.logout),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                      );
+                    },
+                  ),
                 ],
               ),
+
               SizedBox(height: 16.0),
 
               // Balance Section
