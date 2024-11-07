@@ -1,8 +1,11 @@
-// home_page.dart
-
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:uas_fintech/camera_page.dart';
 import 'bottom_nav_bar.dart';
 import 'sign_up.dart';
+import 'profile.dart'; // Pastikan ProfilePage terimport
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,24 +19,36 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+
+    // Navigasi ke halaman yang sesuai berdasarkan indeks BottomNavBar
+    if (index == 3) {
+      // Jika user menekan "Profile", arahkan ke ProfilePage
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ProfilePage()),
+      );
+    }
   }
 
   final List<Map<String, String>> otherPeople = [
     {
       "name": "Alice",
-      "imageUrl":
-          "https://via.placeholder.com/50", // Replace with actual image URL
+      "imageUrl": "https://via.placeholder.com/50",
     },
     {
       "name": "Bob",
-      "imageUrl":
-          "https://via.placeholder.com/50", // Replace with actual image URL
+      "imageUrl": "https://via.placeholder.com/50",
     },
     {
       "name": "Charlie",
-      "imageUrl":
-          "https://via.placeholder.com/50", // Replace with actual image URL
+      "imageUrl": "https://via.placeholder.com/50",
     },
+  ];
+
+  final List<String> imgList = [
+    'https://via.placeholder.com/50',
+    'https://via.placeholder.com/50',
+    'https://via.placeholder.com/50',
   ];
 
   @override
@@ -41,8 +56,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(
-            horizontal: 16.0, vertical: 10.0), // Adjust padding as needed
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
         child: Padding(
           padding: const EdgeInsets.only(top: 20.0),
           child: Column(
@@ -67,9 +81,9 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   Spacer(),
-                  Icon(Icons.qr_code_scanner),
+
                   IconButton(
-                    icon: Icon(Icons.logout),
+                    icon: Icon(Icons.exit_to_app_rounded),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -79,53 +93,88 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
 
               // Balance Section
               Container(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 35, 43, 156),
+                      Color.fromARGB(255, 56, 68, 244),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Saldo Anda,", style: TextStyle(color: Colors.white)),
-                    SizedBox(height: 8.0),
-                    Text("Rp. 100.000.000,00",
+                    const Text("Saldo Anda,",
+                        style: TextStyle(color: Colors.white)),
+                    const SizedBox(height: 8.0),
+                    const Text("Rp. 100.000.000,00",
                         style: TextStyle(
                             fontSize: 24,
                             color: Colors.white,
                             fontWeight: FontWeight.bold)),
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        IconButton(
-                          icon: Icon(Icons.add_circle, color: Colors.white),
-                          onPressed: () {},
+                        Container(
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Iconsax.moneys,
+                                color: Color.fromARGB(255, 51, 62, 221)),
+                            onPressed: () {},
+                          ),
                         ),
-                        IconButton(
-                          icon: Icon(Icons.send, color: Colors.white),
-                          onPressed: () {},
+                        Container(
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Iconsax.money_send,
+                                color: Color.fromARGB(255, 51, 62, 221)),
+                            onPressed: () {},
+                          ),
                         ),
-                        IconButton(
-                          icon: Icon(Icons.qr_code, color: Colors.white),
-                          onPressed: () {},
+                        Container(
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Iconsax.scan_barcode,
+                                color: Color.fromARGB(255, 51, 62, 221)),
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CameraPage()),
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 16.0),
+
+              const SizedBox(height: 16.0),
 
               // Other People Section
-              Text("Other People",
+              const Text("Other People",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               Row(
                 children: otherPeople.map((person) {
                   return Padding(
@@ -133,24 +182,23 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       children: [
                         CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              person["imageUrl"]!), // Load the image URL
+                          backgroundImage: NetworkImage(person["imageUrl"]!),
                         ),
-                        SizedBox(height: 4.0),
-                        Text(person["name"]!), // Display the person's name
+                        const SizedBox(height: 4.0),
+                        Text(person["name"]!),
                       ],
                     ),
                   );
                 }).toList(),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
 
               // Recent Transactions Section
-              Text("Recent Transaction",
+              const Text("Recent Transaction",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               Container(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8.0),
@@ -158,38 +206,63 @@ class _HomePageState extends State<HomePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
+                    const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("30 Okt 2024"),
+                        Text("30 Okt 2024",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
                         Text("Nasi goreng pakde har"),
                         Text("-IDR 28.000.00",
                             style: TextStyle(color: Colors.red)),
                       ],
                     ),
                     Chip(
-                      label: Text("Berhasil"),
-                      backgroundColor: Colors.green,
+                      label: const Text(
+                        "Berhasil",
+                        style: TextStyle(color: Color.fromARGB(255, 1, 92, 12)),
+                      ),
+                      backgroundColor: const Color.fromARGB(255, 146, 248, 180),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 4.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                     ),
-                    Icon(Icons.arrow_forward_ios),
+                    const Icon(Icons.arrow_forward_ios),
                   ],
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
 
               // Recommendation Section
-              Text("Rekomendasi Pilihan",
+              const Text("Rekomendasi Pilihan",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              SizedBox(height: 8.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: List.generate(3, (index) {
-                  return Container(
-                    width: 100,
-                    height: 100,
-                    color: Colors.grey[300],
+              const SizedBox(height: 8.0),
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: 200.0,
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: true,
+                  autoPlay: true,
+                ),
+                items: imgList.map((imageUrl) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            image: NetworkImage(
+                                imageUrl), // Use NetworkImage for URLs
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
                   );
-                }),
+                }).toList(),
               ),
             ],
           ),
