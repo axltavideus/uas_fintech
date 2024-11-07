@@ -3,7 +3,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:uas_fintech/camera_page.dart';
 import 'bottom_nav_bar.dart';
-import 'profile.dart'; // Pastikan ProfilePage terimport
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,12 +18,14 @@ class _HomePageState extends State<HomePage> {
     });
 
     // Navigasi ke halaman yang sesuai berdasarkan indeks BottomNavBar
-    if (index == 3) {
-      // Jika user menekan "Profile", arahkan ke ProfilePage
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ProfilePage()),
-      );
+    if (index == 0) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else if (index == 1) {
+      Navigator.pushReplacementNamed(context, '/pay');
+    } else if (index == 2) {
+      // Navigate to History page
+    } else if (index == 3) {
+      Navigator.pushReplacementNamed(context, '/profile');
     }
   }
 

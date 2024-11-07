@@ -60,7 +60,17 @@ class _CameraPageState extends State<CameraPage> {
     setState(() {
       _selectedIndex = index;
     });
-    // Handle page navigation if required
+
+    // Logic for navigating to different pages based on the index
+    if (index == 0) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else if (index == 1) {
+      // Navigate to Pay page
+    } else if (index == 2) {
+      // Navigate to History page
+    } else if (index == 3) {
+      Navigator.pushReplacementNamed(context, '/profile');
+    }
   }
 
   @override

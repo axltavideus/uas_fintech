@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uas_fintech/camera_page.dart';
 import 'home_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'profile.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => HomePage(),
         '/profile': (context) => ProfilePage(),
+        '/pay':(context) => CameraPage(),
       },
     );
   }
