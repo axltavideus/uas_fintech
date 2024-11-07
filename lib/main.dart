@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'profile.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +26,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      // Set the initial route to the home page
+      initialRoute: '/home',
+      // Define the available routes
+      routes: {
+        '/home': (context) => HomePage(),
+        '/profile': (context) => ProfilePage(),
+      },
     );
   }
 }

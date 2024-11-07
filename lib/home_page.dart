@@ -3,6 +3,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:uas_fintech/camera_page.dart';
 import 'bottom_nav_bar.dart';
+import 'profile.dart'; // Pastikan ProfilePage terimport
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,6 +17,15 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+
+    // Navigasi ke halaman yang sesuai berdasarkan indeks BottomNavBar
+    if (index == 3) {
+      // Jika user menekan "Profile", arahkan ke ProfilePage
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ProfilePage()),
+      );
+    }
   }
 
   final List<Map<String, String>> otherPeople = [
