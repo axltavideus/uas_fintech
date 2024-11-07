@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await _checkPermissions();
   runApp(MyApp());
+}
+
+// Function to check and request camera permissions
+Future<void> _checkPermissions() async {
+  var status = await Permission.camera.status;
+  if (!status.isGranted) {
+    await Permission.camera.request();
+  }
 }
 
 class MyApp extends StatelessWidget {

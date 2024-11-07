@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:uas_fintech/camera_page.dart';
 import 'bottom_nav_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -132,7 +133,13 @@ class _HomePageState extends State<HomePage> {
                           child: IconButton(
                             icon: const Icon(Iconsax.scan_barcode,
                                 color: Color.fromARGB(255, 51, 62, 221)),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CameraPage()),
+                              );
+                            },
                           ),
                         ),
                       ],
