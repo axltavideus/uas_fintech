@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:uas_fintech/camera_page.dart';
 import 'bottom_nav_bar.dart';
+import 'sign_up.dart';
 import 'profile.dart'; // Pastikan ProfilePage terimport
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -60,7 +63,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Welcome Section
-              const Row(
+              Row(
                 children: [
                   CircleAvatar(
                     backgroundImage:
@@ -78,7 +81,16 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   Spacer(),
-                  Icon(Icons.exit_to_app_rounded),
+
+                  IconButton(
+                    icon: Icon(Icons.exit_to_app_rounded),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                      );
+                    },
+                  ),
                 ],
               ),
               const SizedBox(height: 16.0),
@@ -142,7 +154,13 @@ class _HomePageState extends State<HomePage> {
                           child: IconButton(
                             icon: const Icon(Iconsax.scan_barcode,
                                 color: Color.fromARGB(255, 51, 62, 221)),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CameraPage()),
+                              );
+                            },
                           ),
                         ),
                       ],
