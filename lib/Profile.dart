@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'bottom_nav_bar.dart';
+import 'customerservice.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -7,22 +8,21 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  int _selectedIndex = 3; // Profile page is index 3
+  int _selectedIndex = 3; 
 
   void _onNavBarTap(int index) {
     setState(() {
       _selectedIndex = index;
     });
-    
-    // Logic for navigating to different pages based on the index
+
     if (index == 0) {
       Navigator.pushReplacementNamed(context, '/home');
     } else if (index == 1) {
-      // Navigate to Pay page
+      Navigator.pushReplacementNamed(context, '/pay');
     } else if (index == 2) {
-      // Navigate to History page
+      Navigator.pushReplacementNamed(context, '/history');
     } else if (index == 3) {
-      // Profile page, no navigation needed
+      Navigator.pushReplacementNamed(context, '/');
     }
   }
 
@@ -54,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   CircleAvatar(
                     radius: 50,
                     backgroundImage:
-                        AssetImage('assets/profile_picture.jpg'), // Replace with your profile image
+                        AssetImage('assets/profile_picture.jpg'), 
                   ),
                   SizedBox(height: 10),
                   Text(
@@ -107,23 +107,33 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  Container(
-                    padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.blue[800],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.help_outline, color: Colors.white),
-                        SizedBox(width: 10),
-                        Text(
-                          "AXEL Siap membantu dengan kesulitan yang akan datang!!!",
-                          style: TextStyle(color: Colors.white),
-                          textAlign: TextAlign.center,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CustomerServiceScreen(),
                         ),
-                      ],
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.blue[800],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.help_outline, color: Colors.white),
+                          SizedBox(width: 10),
+                          Text(
+                            "AXEL Siap membantu dengan kesulitan yang akan datang!!!",
+                            style: TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
