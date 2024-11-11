@@ -68,7 +68,7 @@ class _CameraPageState extends State<CameraPage> {
     } else if (index == 1) {
       // Navigate to Pay page
     } else if (index == 2) {
-      // Navigate to History page
+      Navigator.pushReplacementNamed(context, '/pay');
     } else if (index == 3) {
       Navigator.pushReplacementNamed(context, '/profile');
     }
