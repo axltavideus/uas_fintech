@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:uas_fintech/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:iconsax/iconsax.dart';
 
 class TopUpPage extends StatelessWidget {
+  final TextEditingController _amountController = TextEditingController();
+
+  Future<void> _addAmount(String amount) async {
+    final prefs = await SharedPreferences.getInstance();
+    final currentBalance = prefs.getInt('topUpAmount') ??
+        0; // Retrieve existing balance as an integer
+    final newAmount = int.tryParse(amount) ?? 0; // Parse input as an integer
+    final newBalance = currentBalance + newAmount; // Add new amount
+
+    print('Current Balance: $currentBalance');
+    print('New Amount: $newAmount');
+    print('New Balance: $newBalance');
+
+    await prefs.setInt(
+        'topUpAmount', newBalance); // Store updated balance as an integer
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,10 +30,7 @@ class TopUpPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Iconsax.arrow_left_2, color: Colors.black),
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
+            Navigator.pop(context);
           },
         ),
       ),
@@ -32,7 +46,8 @@ class TopUpPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: Colors.grey),
@@ -40,32 +55,25 @@ class TopUpPage extends StatelessWidget {
               child: Row(
                 children: [
                   const SizedBox(width: 8.0),
+                  const Text('Rp',
+                      style: TextStyle(fontSize: 18, color: Colors.black)),
+                  const SizedBox(width: 2.0),
                   Expanded(
-                    child: Row(
-                      children: [
-                        const Text(
-                          'Rp',
-                          style: TextStyle(fontSize: 18, color: Colors.black),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: TextField(
+                        controller: _amountController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter amount',
+                          border: InputBorder.none,
                         ),
-                        const SizedBox(width: 2.0),
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const TextField(
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: 'Enter amount',
-                                border: InputBorder.none,
-                              ),
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ),
-                        ),
-                      ],
+                        style: const TextStyle(fontSize: 18),
+                      ),
                     ),
                   ),
                   const Padding(
@@ -86,23 +94,23 @@ class TopUpPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                 ),
-                onPressed: () {
-                  // Add confirm action
+                onPressed: () async {
+                  final amount = _amountController.text;
+                  print('Amount entered: $amount'); // Debug print
+                  if (amount.isNotEmpty) {
+                    await _addAmount(amount);
+                    Navigator.pop(context); // Return to HomePage
+                  }
                 },
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(width: 24), // Placeholder to balance the icon's position
-                    Text(
-                      'Confirm',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
+                    SizedBox(width: 24),
+                    Text('Confirm',
+                        style: TextStyle(fontSize: 16, color: Colors.white)),
                     Padding(
-                      padding: EdgeInsets.only(right: 16.0), // Right padding
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                      ),
+                      padding: EdgeInsets.only(right: 16.0),
+                      child: Icon(Icons.arrow_forward, color: Colors.white),
                     ),
                   ],
                 ),
