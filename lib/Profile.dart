@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'bottom_nav_bar.dart';
 import 'customerservice.dart';
 
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  int _selectedIndex = 3; 
+  int _selectedIndex = 3;
 
   void _onNavBarTap(int index) {
     setState(() {
@@ -26,6 +27,11 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  void _signOut() {
+    // Navigasi ke halaman login setelah sign out
+    Navigator.pushReplacementNamed(context, '/LoginPage');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +39,13 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: Text("Profile Page"),
         backgroundColor: Colors.blue,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: _signOut, 
+            tooltip: 'Sign Out',
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -45,7 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
-                borderRadius: BorderRadius.vertical(
+                borderRadius: BorderRadius.vertical(  
                   bottom: Radius.circular(20),
                 ),
               ),
@@ -53,8 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage:
-                        AssetImage('assets/profile_picture.jpg'), 
+                    backgroundImage: AssetImage('assets/profile_picture.jpg'),
                   ),
                   SizedBox(height: 10),
                   Text(
@@ -142,10 +154,9 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
       ),
-      // Replacing the default BottomNavigationBar with BottomNavBar
       bottomNavigationBar: BottomNavBar(
         selectedIndex: _selectedIndex,
-        onTap: _onNavBarTap, // Adding navigation logic
+        onTap: _onNavBarTap,
       ),
     );
   }
