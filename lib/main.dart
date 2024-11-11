@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uas_fintech/camera_page.dart';
 import 'home_page.dart';
 import 'pin_code.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(), // Home page after PIN is entered
         '/profile': (context) => ProfilePage(),
         '/history': (context) => HistoryPage(),
+        '/pay':(context) => CameraPage(),
       },
     );
   }

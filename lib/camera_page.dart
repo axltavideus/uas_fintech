@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:uas_fintech/home_page.dart';
 import 'bottom_nav_bar.dart';
 
 late List<CameraDescription> _cameras;
@@ -60,7 +61,17 @@ class _CameraPageState extends State<CameraPage> {
     setState(() {
       _selectedIndex = index;
     });
-    // Handle page navigation if required
+
+    // Logic for navigating to different pages based on the index
+    if (index == 0) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else if (index == 1) {
+      // Navigate to Pay page
+    } else if (index == 2) {
+      // Navigate to History page
+    } else if (index == 3) {
+      Navigator.pushReplacementNamed(context, '/profile');
+    }
   }
 
   @override
@@ -77,7 +88,10 @@ class _CameraPageState extends State<CameraPage> {
         leading: IconButton(
           icon: const Icon(Iconsax.arrow_left_2, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
           },
         ),
       ),
@@ -97,13 +111,12 @@ class _CameraPageState extends State<CameraPage> {
                 // Action for Transfer Bank button
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0)
-              ),
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0)),
               child: const Column(
                 children: [
                   Icon(
