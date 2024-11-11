@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:uas_fintech/camera_page.dart';
+import 'package:uas_fintech/promo_detail_page.dart';
 import 'bottom_nav_bar.dart';
 import 'sign_up.dart';
 import 'profile.dart'; // Pastikan ProfilePage terimport
@@ -234,36 +235,44 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 16.0),
 
-              // Recommendation Section
-              const Text("Rekomendasi Pilihan",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8.0),
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 200.0,
-                  enlargeCenterPage: true,
-                  enableInfiniteScroll: true,
-                  autoPlay: true,
-                ),
-                items: imgList.map((imageUrl) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                imageUrl), // Use NetworkImage for URLs
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }).toList(),
+// Recommendation Section
+const Text("Rekomendasi Pilihan",
+    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+const SizedBox(height: 8.0),
+CarouselSlider(
+  options: CarouselOptions(
+    height: 200.0,
+    enlargeCenterPage: true,
+    enableInfiniteScroll: true,
+    autoPlay: true,
+  ),
+  items: imgList.map((imageUrl) {
+    return Builder(
+      builder: (BuildContext context) {
+        return GestureDetector(
+          onTap: () {
+            // Navigate to PromoDetailPage when tapped
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => PromoDetailPage()),
+            );
+          },
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: NetworkImage(imageUrl), // Use NetworkImage for URLs
+                fit: BoxFit.cover,
               ),
+            ),
+          ),
+        );
+      },
+    );
+  }).toList(),
+),
             ],
           ),
         ),
