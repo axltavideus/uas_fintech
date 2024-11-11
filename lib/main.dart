@@ -5,6 +5,7 @@ import 'pin_code.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'history_page.dart';
 import 'profile.dart';
+import 'topup_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => ProfilePage(),
         '/history': (context) => HistoryPage(),
         '/pay':(context) => CameraPage(),
+        '/topup': (context) => TopUpPage(), // Add this line
       },
     );
   }

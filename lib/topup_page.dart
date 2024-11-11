@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uas_fintech/home_page.dart';
 import 'package:iconsax/iconsax.dart';
 
 class TopUpPage extends StatelessWidget {
@@ -20,6 +21,7 @@ class TopUpPage extends StatelessWidget {
         'topUpAmount', newBalance); // Store updated balance as an integer
   }
 
+  // TopUpPage
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +32,10 @@ class TopUpPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Iconsax.arrow_left_2, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
           },
         ),
       ),
@@ -96,10 +101,14 @@ class TopUpPage extends StatelessWidget {
                 ),
                 onPressed: () async {
                   final amount = _amountController.text;
-                  print('Amount entered: $amount'); // Debug print
                   if (amount.isNotEmpty) {
-                    await _addAmount(amount);
-                    Navigator.pop(context); // Return to HomePage
+                    await _addAmount(amount); // Add the amount
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HomePage()), // Navigate back to HomePage
+                    );
                   }
                 },
                 child: const Row(
