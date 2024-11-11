@@ -38,9 +38,9 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             Container(
               padding: EdgeInsets.symmetric(vertical: 20),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.blue[700]!, Colors.blue[400]!],
+                  colors: [Color.fromARGB(255, 35, 43, 156), Color.fromARGB(255, 56, 68, 244)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
@@ -50,13 +50,13 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               child: Column(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 50,
                     backgroundImage:
                         AssetImage('assets/profile_picture.jpg'), 
                   ),
                   SizedBox(height: 10),
-                  Text(
+                  const Text(
                     'Randy',
                     style: TextStyle(
                       fontSize: 24,
@@ -68,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ElevatedButton.icon(
                     onPressed: () {},
                     icon: Icon(Icons.qr_code, color: Colors.white),
-                    label: Text(
+                    label: const Text(
                       "QR SAYA",
                       style: TextStyle(color: Colors.white),
                     ),
