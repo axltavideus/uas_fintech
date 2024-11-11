@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
 import 'bottom_nav_bar.dart';
 import 'home_page.dart'; 
+import 'detail_transaction.dart';
 
 class HistoryPage extends StatefulWidget {
-  const HistoryPage({super.key});
-
   @override
   _HistoryPageState createState() => _HistoryPageState();
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   void _onNavBarTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  setState(() {
+    _selectedIndex = index;
+  });
+
+  if (index == 0) {
+    Navigator.pushReplacementNamed(context, '/home');
+  } else if (index == 1) {
+    // Navigate to Pay page
+  } else if (index == 2) {
+  } else if (index == 3) {
+    Navigator.pushReplacementNamed(context, '/profile');
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +54,20 @@ class _HistoryPageState extends State<HistoryPage> {
                   padding: EdgeInsets.symmetric(horizontal: 25.0),
                 ),
                 ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailTransaction(
+                        recipient: "Nemesis Fitness",
+                        targetAccount: "0811 - 1245 - 4466",
+                        transactionType: "Transfer",
+                        sourceAccount: "0812 - 8890 - 1800",
+                        amount: "-IDR 250.000",
+                      ),
+                    ),
+                  );
+                },
                   leading: Container(
                     padding: EdgeInsets.all(8),
                     child: const Column(
@@ -65,7 +87,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       ],
                     ),
                   ),
-                  title: const Text("Gym"),
+                  title: const Text("Nemesis Fitness"),
                   subtitle: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -77,9 +99,24 @@ class _HistoryPageState extends State<HistoryPage> {
                       ),
                     ],
                   ),
+                  
                 ),
                 const Divider(),
                 ListTile(
+                  onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailTransaction(
+                        recipient: "Nasi Goreng Pak de har",
+                        targetAccount: "0811 - 1245 - 4466",
+                        transactionType: "Pembayaran QRIS",
+                        sourceAccount: "0812 - 8890 - 1800",
+                        amount: "-IDR 28.000",
+                      ),
+                    ),
+                  );
+                },
                   leading: Container(
                     padding: EdgeInsets.all(8),
                     child: const Column(
@@ -114,6 +151,20 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),
                 const Divider(),
                 ListTile(
+                  onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailTransaction(
+                        recipient: "Matthew Russel Paul",
+                        targetAccount: "0811 - 1245 - 4466",
+                        transactionType: "Transfer",
+                        sourceAccount: "0812 - 8890 - 1800",
+                        amount: "+IDR 50.000",
+                      ),
+                    ),
+                  );
+                },
                   leading: Container(
                     padding: EdgeInsets.all(8),
                     child: const Column(

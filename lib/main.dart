@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'history_page.dart';
 import 'profile.dart';
 
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -32,6 +34,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => HomePage(),
         '/profile': (context) => ProfilePage(),
+        '/history': (context) => HistoryPage(),
       },
     );
   }

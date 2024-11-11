@@ -22,7 +22,6 @@ class _ProfilePageState extends State<ProfilePage> {
     } else if (index == 2) {
       Navigator.pushReplacementNamed(context, '/history');
     } else if (index == 3) {
-      Navigator.pushReplacementNamed(context, '/');
     }
   }
 

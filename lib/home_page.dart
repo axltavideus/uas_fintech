@@ -4,7 +4,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:uas_fintech/camera_page.dart';
 import 'bottom_nav_bar.dart';
 import 'sign_up.dart';
-import 'profile.dart'; // Pastikan ProfilePage terimport
 
 
 class HomePage extends StatefulWidget {
@@ -16,19 +15,21 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   void _onNavBarTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  setState(() {
+    _selectedIndex = index;  // Update selectedIndex
+  });
 
-    // Navigasi ke halaman yang sesuai berdasarkan indeks BottomNavBar
-    if (index == 3) {
-      // Jika user menekan "Profile", arahkan ke ProfilePage
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ProfilePage()),
-      );
-    }
+  // Navigasi berdasarkan index
+  if (index == 0) {
+  } else if (index == 1) {
+    // Navigate to Pay page
+  } else if (index == 2) {
+    Navigator.pushReplacementNamed(context, '/history');
+  } else if (index == 3) {
+    Navigator.pushReplacementNamed(context, '/profile');
   }
+}
+
 
   final List<Map<String, String>> otherPeople = [
     {
