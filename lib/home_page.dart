@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:uas_fintech/camera_page.dart';
+import 'package:uas_fintech/promo_detail_page.dart';
+import 'bottom_nav_bar.dart';
+import 'sign_up.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'camera_page.dart';
 import 'topup_page.dart';
-import 'bottom_nav_bar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -38,20 +41,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onNavBarTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  setState(() {
+    _selectedIndex = index;  // Update selectedIndex
+  });
 
-    if (index == 0) {
-      Navigator.pushReplacementNamed(context, '/home');
-    } else if (index == 1) {
-      Navigator.pushReplacementNamed(context, '/pay');
-    } else if (index == 2) {
-      // Navigate to History page
-    } else if (index == 3) {
-      Navigator.pushReplacementNamed(context, '/profile');
-    }
+  // Navigasi berdasarkan index
+  if (index == 0) {
+  } else if (index == 1) {
+    Navigator.pushReplacementNamed(context, '/pay');
+  } else if (index == 2) {
+    Navigator.pushReplacementNamed(context, '/history');
+  } else if (index == 3) {
+    Navigator.pushReplacementNamed(context, '/profile');
   }
+}
+
 
   final List<Map<String, String>> otherPeople = [
     {
@@ -86,7 +90,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Welcome Section
-              const Row(
+              Row(
                 children: [
                   CircleAvatar(
                     backgroundImage:
@@ -104,7 +108,16 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   Spacer(),
-                  Icon(Icons.exit_to_app_rounded),
+
+                  IconButton(
+                    icon: Icon(Icons.exit_to_app_rounded),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                      );
+                    },
+                  ),
                 ],
               ),
               const SizedBox(height: 16.0),
@@ -251,35 +264,44 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 16.0),
 
-              // Recommendation Section
-              const Text("Rekomendasi Pilihan",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8.0),
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 200.0,
-                  enlargeCenterPage: true,
-                  enableInfiniteScroll: true,
-                  autoPlay: true,
-                ),
-                items: imgList.map((imageUrl) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            image: NetworkImage(imageUrl),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }).toList(),
+// Recommendation Section
+const Text("Rekomendasi Pilihan",
+    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+const SizedBox(height: 8.0),
+CarouselSlider(
+  options: CarouselOptions(
+    height: 200.0,
+    enlargeCenterPage: true,
+    enableInfiniteScroll: true,
+    autoPlay: true,
+  ),
+  items: imgList.map((imageUrl) {
+    return Builder(
+      builder: (BuildContext context) {
+        return GestureDetector(
+          onTap: () {
+            // Navigate to PromoDetailPage when tapped
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => PromoDetailPage()),
+            );
+          },
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: NetworkImage(imageUrl), // Use NetworkImage for URLs
+                fit: BoxFit.cover,
               ),
+            ),
+          ),
+        );
+      },
+    );
+  }).toList(),
+),
             ],
           ),
         ),
