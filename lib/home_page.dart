@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:uas_fintech/camera_page.dart';
+import 'package:uas_fintech/promo_detail_page.dart';
 import 'bottom_nav_bar.dart';
 import 'sign_up.dart';
-import 'profile.dart'; // Pastikan ProfilePage terimport
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'camera_page.dart';
+import 'topup_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,21 +16,46 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  int _currentBalance = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTopUpAmount();
+  }
+
+  Future<void> _loadTopUpAmount() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _currentBalance = prefs.getInt('topUpAmount') ??
+          0; // Ensure it’s retrieved as an integer
+    });
+  }
+
+  Future<void> _updateTopUpAmount() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => TopUpPage()),
+    );
+    _loadTopUpAmount(); // Refresh top-up amount after returning
+  }
 
   void _onNavBarTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  setState(() {
+    _selectedIndex = index;  // Update selectedIndex
+  });
 
-    // Navigasi ke halaman yang sesuai berdasarkan indeks BottomNavBar
-    if (index == 3) {
-      // Jika user menekan "Profile", arahkan ke ProfilePage
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ProfilePage()),
-      );
-    }
+  // Navigasi berdasarkan index
+  if (index == 0) {
+  } else if (index == 1) {
+    Navigator.pushReplacementNamed(context, '/pay');
+  } else if (index == 2) {
+    Navigator.pushReplacementNamed(context, '/history');
+  } else if (index == 3) {
+    Navigator.pushReplacementNamed(context, '/profile');
   }
+}
+
 
   final List<Map<String, String>> otherPeople = [
     {
@@ -95,7 +122,7 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 16.0),
 
-              // Balance Section
+              // Balance Section with dynamic top-up amount
               Container(
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
@@ -115,11 +142,13 @@ class _HomePageState extends State<HomePage> {
                     const Text("Saldo Anda,",
                         style: TextStyle(color: Colors.white)),
                     const SizedBox(height: 8.0),
-                    const Text("Rp. 100.000.000,00",
-                        style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold)),
+                    Text(
+                      "Rp. $_currentBalance", // Display the dynamic top-up amount
+                      style: const TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
                     const SizedBox(height: 16.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -130,9 +159,10 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.white,
                           ),
                           child: IconButton(
-                            icon: const Icon(Iconsax.moneys,
+                            icon: const Icon(Iconsax.add_circle,
                                 color: Color.fromARGB(255, 51, 62, 221)),
-                            onPressed: () {},
+                            onPressed:
+                                _updateTopUpAmount, // Update amount on top-up
                           ),
                         ),
                         Container(
@@ -234,36 +264,44 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 16.0),
 
-              // Recommendation Section
-              const Text("Rekomendasi Pilihan",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8.0),
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 200.0,
-                  enlargeCenterPage: true,
-                  enableInfiniteScroll: true,
-                  autoPlay: true,
-                ),
-                items: imgList.map((imageUrl) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                imageUrl), // Use NetworkImage for URLs
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }).toList(),
+// Recommendation Section
+const Text("Rekomendasi Pilihan",
+    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+const SizedBox(height: 8.0),
+CarouselSlider(
+  options: CarouselOptions(
+    height: 200.0,
+    enlargeCenterPage: true,
+    enableInfiniteScroll: true,
+    autoPlay: true,
+  ),
+  items: imgList.map((imageUrl) {
+    return Builder(
+      builder: (BuildContext context) {
+        return GestureDetector(
+          onTap: () {
+            // Navigate to PromoDetailPage when tapped
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => PromoDetailPage()),
+            );
+          },
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: NetworkImage(imageUrl), // Use NetworkImage for URLs
+                fit: BoxFit.cover,
               ),
+            ),
+          ),
+        );
+      },
+    );
+  }).toList(),
+),
             ],
           ),
         ),
