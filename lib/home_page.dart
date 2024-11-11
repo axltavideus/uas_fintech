@@ -8,6 +8,7 @@ import 'sign_up.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'camera_page.dart';
 import 'topup_page.dart';
+import 'history_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -41,21 +42,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onNavBarTap(int index) {
-  setState(() {
-    _selectedIndex = index;  // Update selectedIndex
-  });
+    setState(() {
+      _selectedIndex = index; // Update selectedIndex
+    });
 
-  // Navigasi berdasarkan index
-  if (index == 0) {
-  } else if (index == 1) {
-    Navigator.pushReplacementNamed(context, '/pay');
-  } else if (index == 2) {
-    Navigator.pushReplacementNamed(context, '/history');
-  } else if (index == 3) {
-    Navigator.pushReplacementNamed(context, '/profile');
+    // Navigasi berdasarkan index
+    if (index == 0) {
+    } else if (index == 1) {
+      Navigator.pushReplacementNamed(context, '/pay');
+    } else if (index == 2) {
+      Navigator.pushReplacementNamed(context, '/history');
+    } else if (index == 3) {
+      Navigator.pushReplacementNamed(context, '/profile');
+    }
   }
-}
-
 
   final List<Map<String, String>> otherPeople = [
     {
@@ -108,7 +108,6 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   Spacer(),
-
                   IconButton(
                     icon: Icon(Icons.exit_to_app_rounded),
                     onPressed: () {
@@ -223,85 +222,97 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 16.0),
 
-              // Recent Transactions Section
+// Recent Transactions Section
               const Text("Recent Transaction",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8.0),
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("30 Okt 2024",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text("Nasi goreng pakde har"),
-                        Text("-IDR 28.000.00",
-                            style: TextStyle(color: Colors.red)),
-                      ],
-                    ),
-                    Chip(
-                      label: const Text(
-                        "Berhasil",
-                        style: TextStyle(color: Color.fromARGB(255, 1, 92, 12)),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HistoryPage()),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("30 Okt 2024",
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text("Nasi goreng pakde har"),
+                          Text("-IDR 28.000.00",
+                              style: TextStyle(color: Colors.red)),
+                        ],
                       ),
-                      backgroundColor: const Color.fromARGB(255, 146, 248, 180),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0, vertical: 4.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
+                      Chip(
+                        label: const Text(
+                          "Berhasil",
+                          style:
+                              TextStyle(color: Color.fromARGB(255, 1, 92, 12)),
+                        ),
+                        backgroundColor:
+                            const Color.fromARGB(255, 146, 248, 180),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 4.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
                       ),
-                    ),
-                    const Icon(Icons.arrow_forward_ios),
-                  ],
+                      const Icon(Icons.arrow_forward_ios),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 16.0),
 
 // Recommendation Section
-const Text("Rekomendasi Pilihan",
-    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-const SizedBox(height: 8.0),
-CarouselSlider(
-  options: CarouselOptions(
-    height: 200.0,
-    enlargeCenterPage: true,
-    enableInfiniteScroll: true,
-    autoPlay: true,
-  ),
-  items: imgList.map((imageUrl) {
-    return Builder(
-      builder: (BuildContext context) {
-        return GestureDetector(
-          onTap: () {
-            // Navigate to PromoDetailPage when tapped
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => PromoDetailPage()),
-            );
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            margin: const EdgeInsets.symmetric(horizontal: 5.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                image: NetworkImage(imageUrl), // Use NetworkImage for URLs
-                fit: BoxFit.cover,
+              const Text("Rekomendasi Pilihan",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8.0),
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: 200.0,
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: true,
+                  autoPlay: true,
+                ),
+                items: imgList.map((imageUrl) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return GestureDetector(
+                        onTap: () {
+                          // Navigate to PromoDetailPage when tapped
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PromoDetailPage()),
+                          );
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  imageUrl), // Use NetworkImage for URLs
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }).toList(),
               ),
-            ),
-          ),
-        );
-      },
-    );
-  }).toList(),
-),
             ],
           ),
         ),
