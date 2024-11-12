@@ -5,6 +5,7 @@ import 'home_page.dart';
 import 'dart:convert';
 import 'detail_transaction.dart';
 import 'package:intl/intl.dart';
+import 'package:iconsax/iconsax.dart';
 
 class HistoryPage extends StatefulWidget {
   @override
@@ -76,7 +77,7 @@ class _HistoryPageState extends State<HistoryPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Iconsax.arrow_left_2),
           color: Colors.white,
           onPressed: () {
             Navigator.pushReplacement(
