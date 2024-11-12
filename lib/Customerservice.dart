@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'bottom_nav_bar.dart'; // Assuming BottomNavBar is already defined
 
 class CustomerServiceScreen extends StatefulWidget {
+  const CustomerServiceScreen({super.key});
+
   @override
   _CustomerServiceScreenState createState() => _CustomerServiceScreenState();
 }
@@ -30,10 +32,10 @@ class _CustomerServiceScreenState extends State<CustomerServiceScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text('Customer Service'),
+        title: const Text('Customer Service'),
         backgroundColor: Colors.grey[700],
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -43,7 +45,7 @@ class _CustomerServiceScreenState extends State<CustomerServiceScreen> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Row(
+            const Row(
               children: [
                 CircleAvatar(
                   backgroundColor: Colors.blue,
@@ -69,7 +71,7 @@ class _CustomerServiceScreenState extends State<CustomerServiceScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: ListView(
                 children: [
@@ -99,22 +101,22 @@ class ChatBubble extends StatelessWidget {
   final String message;
   final bool isSentByAssistant;
 
-  ChatBubble({required this.message, required this.isSentByAssistant});
+  const ChatBubble({super.key, required this.message, required this.isSentByAssistant});
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: isSentByAssistant ? Alignment.centerLeft : Alignment.centerRight,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 5),
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
           color: Colors.grey[300],
           borderRadius: BorderRadius.circular(10),
         ),
         child: Text(
           message,
-          style: TextStyle(fontSize: 14),
+          style: const TextStyle(fontSize: 14),
         ),
       ),
     );
