@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 class DetailTransaction extends StatelessWidget {
   final String recipient;
@@ -22,7 +23,7 @@ class DetailTransaction extends StatelessWidget {
         title: Text('DOMPT'),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Iconsax.arrow_left_2),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -60,8 +61,7 @@ class DetailTransaction extends StatelessWidget {
             buildInfoRow('Pembayaran ke', recipient),
             buildInfoRow('Transfer ke', targetAccount),
             buildInfoRow('Jenis Transaksi', transactionType),
-            buildInfoRow('Transfer', sourceAccount),
-            buildInfoRow('Nominal Tujuan', amount),
+            buildInfoRow('Jumlah Top Up', amount),
           ],
         ),
       ),
