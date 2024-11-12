@@ -79,12 +79,14 @@ class SignUpPage extends StatelessWidget {
               const SizedBox(height: 10),
 
               // Lock Icon
-              const Icon(
-                Icons.lock,
-                size: 100,
-                color: Colors.grey,
+              Center(
+                child: SizedBox(
+                  width: 200, // Atur lebar logo yang diinginkan
+                  height: 200, // Atur tinggi logo yang diinginkan
+                  child: Image.network(
+                      'https://i.ibb.co.com/ZSmbfGS/Logo-App-removebg-preview.png'),
+                ),
               ),
-              const SizedBox(height: 40),
 
               // Nama Lengkap Card
               Card(

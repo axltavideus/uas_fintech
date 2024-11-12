@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(), // Home page after PIN is entered
         '/profile': (context) => ProfilePage(),
         '/history': (context) => HistoryPage(),
-        '/pay':(context) => CameraPage(),
+        '/pay': (context) => CameraPage(),
       },
     );
   }
