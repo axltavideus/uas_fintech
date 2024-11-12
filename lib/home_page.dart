@@ -55,11 +55,6 @@ class _HomePageState extends State<HomePage> {
     },
   ];
 
-  final List<String> imgList = [
-    'https://via.placeholder.com/50',
-    'https://via.placeholder.com/50',
-    'https://via.placeholder.com/50',
-  ];
 final List<String> imgList = [
   'https://bankmega.com/media/filer_public/7c/fd/7cfdf499-4b4f-42a8-abfd-a2f3c4cda8e1/0d-bm-banner-shopee.jpg',
   'https://ichef.bbci.co.uk/news/1024/branded_news/14E77/production/_133532658_ukraine-russia-promo.png', 
