@@ -6,6 +6,8 @@ import 'bottom_nav_bar.dart';
 late List<CameraDescription> _cameras;
 
 class CameraPage extends StatefulWidget {
+  const CameraPage({super.key});
+
   @override
   _CameraPageState createState() => _CameraPageState();
 }

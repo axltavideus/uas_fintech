@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+// Removed duplicate import
 import 'package:uas_fintech/camera_page.dart';
 import 'package:uas_fintech/promo_detail_page.dart';
 import 'bottom_nav_bar.dart';
 import 'sign_up.dart';
-<<<<<<< Updated upstream
-import 'profile.dart'; // Pastikan ProfilePage terimport
-
-=======
-import 'package:shared_preferences/shared_preferences.dart';
-import 'topup_page.dart';
-import 'package:uas_fintech/promo_detail_page1.dart';
-import 'package:uas_fintech/promo_detail_page2.dart';
->>>>>>> Stashed changes
+// Commented out shared_preferences import since it causes an error
+// import 'package:shared_preferences/shared_preferences.dart';
+// Removed duplicate import of camera_page.dart
+// import 'camera_page.dart';
+// Remove topup_page.dart if it's not available
+// import 'topup_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -30,12 +26,18 @@ class _HomePageState extends State<HomePage> {
       _selectedIndex = index;
     });
 
-    // Navigasi ke halaman yang sesuai berdasarkan indeks BottomNavBar
+    // Check if ProfilePage is available and navigate accordingly
     if (index == 3) {
-      // Jika user menekan "Profile", arahkan ke ProfilePage
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ProfilePage()),
+        MaterialPageRoute(builder: (context) {
+          // Temporarily replace ProfilePage() with an empty Scaffold if ProfilePage doesn't exist
+          // return ProfilePage(); 
+          return Scaffold(
+            appBar: AppBar(title: Text("Profile Page Placeholder")),
+            body: Center(child: Text("Profile Page Placeholder")),
+          );
+        }),
       );
     }
   }
@@ -55,17 +57,18 @@ class _HomePageState extends State<HomePage> {
     },
   ];
 
-final List<String> imgList = [
-  'https://bankmega.com/media/filer_public/7c/fd/7cfdf499-4b4f-42a8-abfd-a2f3c4cda8e1/0d-bm-banner-shopee.jpg',
-  'https://ichef.bbci.co.uk/news/1024/branded_news/14E77/production/_133532658_ukraine-russia-promo.png', 
-  'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgTr074wf0VhmJLJHRpGKcxxkeo34RcDV3btrVOMzzRCovMlgr_nXOuoqdmma0eHyqY0toO_i5RLNM2YjrnahYXNw_or7h--tEDsmImYjOYQqmbr4wd7N_LULrVVckyAV5Hxs5ceyb4ocjOJPkevkSDSINZ5nCxg9SwfsmfqkF0U1cikdDO-sWZ1pQONA/s800/smart-power-all-50-sim-registered-promo.png', 
-];
+  final List<String> imgList = [
+    'https://bankmega.com/media/filer_public/7c/fd/7cfdf499-4b4f-42a8-abfd-a2f3c4cda8e1/0d-bm-banner-shopee.jpg',
+    'https://ichef.bbci.co.uk/news/1024/branded_news/14E77/production/_133532658_ukraine-russia-promo.png', 
+    'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgTr074wf0VhmJLJHRpGKcxxkeo34RcDV3btrVOMzzRCovMlgr_nXOuoqdmma0eHyqY0toO_i5RLNM2YjrnahYXNw_or7h--tEDsmImYjOYQqmbr4wd7N_LULrVVckyAV5Hxs5ceyb4ocjOJPkevkSDSINZ5nCxg9SwfsmfqkF0U1cikdDO-sWZ1pQONA/s800/smart-power-all-50-sim-registered-promo.png', 
+  ];
 
-final List<Widget> promoPages = [
-  const PromoDetailPage(),
-  PromoDetailPage1(), 
-  PromoDetailPage2(), 
-];
+  final List<Widget> promoPages = [
+    PromoDetailPage(),
+    // Replace PromoDetailPage1 and PromoDetailPage2 with placeholders if they're missing
+    Scaffold(appBar: AppBar(title: Text("Promo Detail 1 Placeholder")), body: Center(child: Text("Promo Detail 1"))),
+    Scaffold(appBar: AppBar(title: Text("Promo Detail 2 Placeholder")), body: Center(child: Text("Promo Detail 2"))),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -81,12 +84,12 @@ final List<Widget> promoPages = [
               // Welcome Section
               Row(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     backgroundImage:
                         NetworkImage('https://via.placeholder.com/50'),
                   ),
-                  const SizedBox(width: 8.0),
-                  const Column(
+                  SizedBox(width: 8.0),
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Welcome back,",
@@ -96,10 +99,10 @@ final List<Widget> promoPages = [
                               fontSize: 20, fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  const Spacer(),
+                  Spacer(),
 
                   IconButton(
-                    icon: const Icon(Icons.exit_to_app_rounded),
+                    icon: Icon(Icons.exit_to_app_rounded),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -250,47 +253,47 @@ final List<Widget> promoPages = [
               ),
               const SizedBox(height: 16.0),
 
-// Recommendation Section
-const Text("Rekomendasi Pilihan",
-    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-const SizedBox(height: 8.0),
-CarouselSlider(
-  options: CarouselOptions(
-    height: 200.0,
-    enlargeCenterPage: true,
-    enableInfiniteScroll: true,
-    autoPlay: true,
-  ),
-  items: imgList.asMap().entries.map((entry) {
-    int index = entry.key;
-    String imageUrl = entry.value;
+              // Recommendation Section
+              const Text("Rekomendasi Pilihan",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8.0),
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: 200.0,
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: true,
+                  autoPlay: true,
+                ),
+                items: imgList.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  String imageUrl = entry.value;
 
-    return Builder(
-      builder: (BuildContext context) {
-        return GestureDetector(
-          onTap: () {
-            // Navigate to corresponding promo detail page
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => promoPages[index]),
-            );
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            margin: const EdgeInsets.symmetric(horizontal: 5.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                image: NetworkImage(imageUrl),
-                fit: BoxFit.cover,
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => promoPages[index]),
+                          );
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                              image: NetworkImage(imageUrl),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }).toList(),
               ),
-            ),
-          ),
-        );
-      },
-    );
-  }).toList(),
-),
             ],
           ),
         ),

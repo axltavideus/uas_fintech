@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uas_fintech/home_page.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: PromoDetailPage(),
   ));
 }

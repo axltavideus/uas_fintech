@@ -74,7 +74,7 @@ class _CustomerServiceScreenState extends State<CustomerServiceScreen> {
             const SizedBox(height: 20),
             Expanded(
               child: ListView(
-                children: [
+                children: const [
                   ChatBubble(
                     message: 'Halo saya Axel Customer service dari DOMPT',
                     isSentByAssistant: true,

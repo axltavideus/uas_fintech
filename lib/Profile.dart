@@ -3,6 +3,8 @@ import 'bottom_nav_bar.dart';
 import 'customerservice.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -31,33 +33,33 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text("Profile Page"),
+        title: const Text("Profile Page"),
         backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(vertical: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [Colors.blue[700]!, Colors.blue[400]!],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                   bottom: Radius.circular(20),
                 ),
               ),
               child: Column(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 50,
                     backgroundImage:
                         AssetImage('assets/profile_picture.jpg'), 
                   ),
-                  SizedBox(height: 10),
-                  Text(
+                  const SizedBox(height: 10),
+                  const Text(
                     'Randy',
                     style: TextStyle(
                       fontSize: 24,
@@ -65,11 +67,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   ElevatedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.qr_code, color: Colors.white),
-                    label: Text(
+                    icon: const Icon(Icons.qr_code, color: Colors.white),
+                    label: const Text(
                       "QR SAYA",
                       style: TextStyle(color: Colors.white),
                     ),
@@ -83,46 +85,46 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   buildProfileField("Nama Lengkap", "Randy Wijaya Deus"),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   buildProfileField("No. Telpon", "+62 877-8249-8390"),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   buildProfileField("Email", "Axel@gmail.com"),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {},
-                    child: Text("Ubah Security Code"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
-                      side: BorderSide(color: Colors.grey),
+                      side: const BorderSide(color: Colors.grey),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
+                    child: Text("Ubah Security Code"),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CustomerServiceScreen(),
+                          builder: (context) => const CustomerServiceScreen(),
                         ),
                       );
                     },
                     child: Container(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: Colors.blue[800],
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.help_outline, color: Colors.white),
@@ -158,7 +160,7 @@ class _ProfilePageState extends State<ProfilePage> {
           label,
           style: TextStyle(fontSize: 16, color: Colors.grey[600]),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         TextField(
           enabled: false,
           decoration: InputDecoration(
