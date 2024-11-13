@@ -24,7 +24,6 @@ class _ProfilePageState extends State<ProfilePage> {
     } else if (index == 2) {
       Navigator.pushReplacementNamed(context, '/history');
     } else if (index == 3) {
-      Navigator.pushReplacementNamed(context, '/');
     }
   }
 
@@ -40,10 +39,10 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              decoration: BoxDecoration(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.blue[700]!, Colors.blue[400]!],
+                  colors: [Color.fromARGB(255, 35, 43, 156), Color.fromARGB(255, 56, 68, 244)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
@@ -58,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     backgroundImage:
                         AssetImage('assets/profile_picture.jpg'), 
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
                   const Text(
                     'Randy',
                     style: TextStyle(
@@ -70,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(height: 5),
                   ElevatedButton.icon(
                     onPressed: () {},
-                    icon: const Icon(Icons.qr_code, color: Colors.white),
+                    icon: Icon(Icons.qr_code, color: Colors.white),
                     label: const Text(
                       "QR SAYA",
                       style: TextStyle(color: Colors.white),
