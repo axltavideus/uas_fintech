@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "409745870124",
+    "project_id": "fire-setup-c3510",
+    "storage_bucket": "fire-setup-c3510.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:409745870124:android:7e344a92b54deb293bb089",
+        "android_client_info": {
+          "package_name": "com.example.uas_fintech"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6wz8tTc9wFjs__NEaIqGbgTgt0t11pKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:409745870124:android:144e39d2ed74284a3bb089",
+        "android_client_info": {
+          "package_name": "dev.flutter.provider_shopper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6wz8tTc9wFjs__NEaIqGbgTgt0t11pKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
