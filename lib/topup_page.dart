@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uas_fintech/home_page.dart';
 import 'package:iconsax/iconsax.dart';
+import 'dart:convert';
 
 class TopUpPage extends StatelessWidget {
   final TextEditingController _amountController = TextEditingController();
@@ -102,13 +103,22 @@ class TopUpPage extends StatelessWidget {
                 onPressed: () async {
                   final amount = _amountController.text;
                   if (amount.isNotEmpty) {
-                    await _addAmount(amount); // Add the amount
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              HomePage()), // Navigate back to HomePage
-                    );
+                    await _addAmount(amount);
+
+                    final prefs = await SharedPreferences.getInstance();
+                    List<String> history = prefs.getStringList('transactionHistory') ?? [];
+
+                    history.add(jsonEncode({
+                      'date': DateTime.now().toString(),
+                      'recipient': 'Top Up',
+                      'targetAccount': 'Your Balance',
+                      'transactionType': 'Top-Up',
+                      'sourceAccount': 'Wallet',
+                      'amount': '+IDR $amount',
+                    }));
+
+                    await prefs.setStringList('transactionHistory', history);
+                    Navigator.pop(context); // Return to HomePage
                   }
                 },
                 child: const Row(

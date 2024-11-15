@@ -38,8 +38,8 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(), // Home page after PIN is entered
         '/profile': (context) => ProfilePage(),
         '/history': (context) => HistoryPage(),
-        '/pay':(context) => CameraPage(),
         '/topup': (context) => TopUpPage(), // Add this line
+        '/pay': (context) => CameraPage(),
       },
     );
   }
