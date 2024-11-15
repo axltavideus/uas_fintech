@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'pin_lupa.dart';
 
 class PinCodeWidget extends StatefulWidget {
   const PinCodeWidget({super.key});
@@ -11,11 +12,21 @@ class PinCodeWidget extends StatefulWidget {
 class _PinCodeWidgetState extends State<PinCodeWidget> {
   String enteredPin = '';
   bool isPinVisible = false;
+  String correctPin = '123456'; // Default PIN if not found in preferences
 
-  // Correct PIN for validation
-  final String correctPin = '123456';
+  @override
+  void initState() {
+    super.initState();
+    _loadPin();
+  }
 
-  /// this widget will be used for each digit
+  Future<void> _loadPin() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      correctPin = prefs.getString('user_pin') ?? '123456';
+    });
+  }
+
   Widget numButton(int number) {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
@@ -25,7 +36,6 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
             if (enteredPin.length < 6) {
               enteredPin += number.toString();
             }
-            // Automatically validate PIN when 6 digits are entered
             if (enteredPin.length == 6) {
               _validatePin();
             }
@@ -43,18 +53,15 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
     );
   }
 
-  // Function to validate the PIN and navigate to home page
   void _validatePin() {
     if (enteredPin == correctPin) {
-      // If the PIN is correct, navigate to the home page
       Navigator.pushReplacementNamed(context, '/home');
     } else {
-      // Optionally show an error message or reset PIN
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Incorrect PIN, try again!')),
       );
       setState(() {
-        enteredPin = ''; // Reset the entered PIN after an error
+        enteredPin = '';
       });
     }
   }
@@ -76,8 +83,8 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
         child: SafeArea(
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center, // Center vertically
-              crossAxisAlignment: CrossAxisAlignment.center, // Center horizontally
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
                   'Masukkan Security Code Kamu',
@@ -152,7 +159,6 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                     ),
                   ),
 
-                /// 0 digit with backspace
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Row(
@@ -179,18 +185,24 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                   ),
                 ),
 
-                /// Reset button
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      enteredPin = '';
-                    });
-                  },
-                  child: const Text(
-                    'Reset',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
+                /// Forgot PIN button
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ForgotPinPage(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Lupa PIN',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
