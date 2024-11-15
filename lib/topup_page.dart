@@ -105,9 +105,7 @@ class TopUpPage extends StatelessWidget {
                     await _addAmount(amount); // Add the amount
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              HomePage()), // Navigate back to HomePage
+                      MaterialPageRoute(builder: (context) => HomePage()), // Navigate back to HomePage
                     );
                   }
                 },

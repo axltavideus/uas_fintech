@@ -8,6 +8,7 @@ import 'sign_up.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'topup_page.dart';
+import 'otheruser_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _updateTopUpAmount() async {
-      _loadTopUpAmount(); // Reload balance only if top-up was successful
+    _loadTopUpAmount(); // Reload balance only if top-up was successful
   }
 
   void _onNavBarTap(int index) {
@@ -207,16 +208,29 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 8.0),
               Row(
                 children: otherPeople.map((person) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(person["imageUrl"]!),
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OtherUserPage(
+                            name: person["name"]!,
+                            imageUrl: person["imageUrl"]!,
+                          ),
                         ),
-                        const SizedBox(height: 4.0),
-                        Text(person["name"]!),
-                      ],
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(person["imageUrl"]!),
+                          ),
+                          const SizedBox(height: 4.0),
+                          Text(person["name"]!),
+                        ],
+                      ),
                     ),
                   );
                 }).toList(),
