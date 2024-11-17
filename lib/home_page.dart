@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+// Removed duplicate import
 import 'package:uas_fintech/camera_page.dart';
 import 'package:uas_fintech/detail_transaction.dart';
 import 'package:uas_fintech/history_page.dart';
@@ -8,9 +9,9 @@ import 'package:uas_fintech/promo_detail_page.dart';
 import 'bottom_nav_bar.dart';
 import 'sign_up.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'camera_page.dart';
 import 'topup_page.dart';
-
+import 'history_page.dart';
+import 'transfer_saldo.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -44,21 +45,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onNavBarTap(int index) {
-  setState(() {
-    _selectedIndex = index;  // Update selectedIndex
-  });
+    setState(() {
+      _selectedIndex = index; // Update selectedIndex
+    });
 
-  // Navigasi berdasarkan index
-  if (index == 0) {
-  } else if (index == 1) {
-    Navigator.pushReplacementNamed(context, '/pay');
-  } else if (index == 2) {
-    Navigator.pushReplacementNamed(context, '/history');
-  } else if (index == 3) {
-    Navigator.pushReplacementNamed(context, '/profile');
+    // Navigasi berdasarkan index
+    if (index == 0) {
+    } else if (index == 1) {
+      Navigator.pushReplacementNamed(context, '/pay');
+    } else if (index == 2) {
+      Navigator.pushReplacementNamed(context, '/history');
+    } else if (index == 3) {
+      Navigator.pushReplacementNamed(context, '/profile');
+    }
   }
-}
-
 
   final List<Map<String, String>> otherPeople = [
     {
@@ -76,9 +76,16 @@ class _HomePageState extends State<HomePage> {
   ];
 
   final List<String> imgList = [
-    'https://via.placeholder.com/50',
-    'https://via.placeholder.com/50',
-    'https://via.placeholder.com/50',
+    'https://bankmega.com/media/filer_public/7c/fd/7cfdf499-4b4f-42a8-abfd-a2f3c4cda8e1/0d-bm-banner-shopee.jpg',
+    'https://ichef.bbci.co.uk/news/1024/branded_news/14E77/production/_133532658_ukraine-russia-promo.png', 
+    'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgTr074wf0VhmJLJHRpGKcxxkeo34RcDV3btrVOMzzRCovMlgr_nXOuoqdmma0eHyqY0toO_i5RLNM2YjrnahYXNw_or7h--tEDsmImYjOYQqmbr4wd7N_LULrVVckyAV5Hxs5ceyb4ocjOJPkevkSDSINZ5nCxg9SwfsmfqkF0U1cikdDO-sWZ1pQONA/s800/smart-power-all-50-sim-registered-promo.png', 
+  ];
+
+  final List<Widget> promoPages = [
+    PromoDetailPage(),
+    // Replace PromoDetailPage1 and PromoDetailPage2 with placeholders if they're missing
+    Scaffold(appBar: AppBar(title: Text("Promo Detail 1 Placeholder")), body: Center(child: Text("Promo Detail 1"))),
+    Scaffold(appBar: AppBar(title: Text("Promo Detail 2 Placeholder")), body: Center(child: Text("Promo Detail 2"))),
   ];
 
   @override
@@ -111,7 +118,6 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   Spacer(),
-
                   IconButton(
                     icon: Icon(Icons.exit_to_app_rounded),
                     onPressed: () {
@@ -176,7 +182,15 @@ class _HomePageState extends State<HomePage> {
                           child: IconButton(
                             icon: const Icon(Iconsax.money_send,
                                 color: Color.fromARGB(255, 51, 62, 221)),
-                            onPressed: () {},
+                            onPressed: () async {
+                              final result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => TransferSaldoPage()),
+                              );
+                              if (result == true) {
+                                _loadTopUpAmount();
+                              }
+                            },
                           ),
                         ),
                         Container(
@@ -226,81 +240,98 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 16.0),
 
-              // Recent Transactions Section
+// Recent Transactions Section
               const Text("Recent Transaction",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8.0),
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("30 Okt 2024",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text("Nasi goreng pakde har"),
-                        Text("-IDR 28.000.00",
-                            style: TextStyle(color: Colors.red)),
-                      ],
-                    ),  
-                    IconButton(
-                      icon: const Icon(Icons.arrow_forward_ios),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HistoryPage()),
-                        );
-                      },
-                    ),
-                  ],
+              
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HistoryPage()),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("30 Okt 2024",
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text("Nasi goreng pakde har"),
+                          Text("-IDR 28.000.00",
+                              style: TextStyle(color: Colors.red)),
+                        ],
+                      ),
+                      Chip(
+                        label: const Text(
+                          "Berhasil",
+                          style:
+                              TextStyle(color: Color.fromARGB(255, 1, 92, 12)),
+                        ),
+                        backgroundColor:
+                            const Color.fromARGB(255, 146, 248, 180),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 4.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                      ),
+                      const Icon(Icons.arrow_forward_ios),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 16.0),
 
 // Recommendation Section
-const Text("Rekomendasi Pilihan",
-    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-const SizedBox(height: 8.0),
-CarouselSlider(
-  options: CarouselOptions(
-    height: 200.0,
-    enlargeCenterPage: true,
-    enableInfiniteScroll: true,
-    autoPlay: true,
-  ),
-  items: imgList.map((imageUrl) {
-    return Builder(
-      builder: (BuildContext context) {
-        return GestureDetector(
-          onTap: () {
-            // Navigate to PromoDetailPage when tapped
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => PromoDetailPage()),
-            );
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            margin: const EdgeInsets.symmetric(horizontal: 5.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                image: NetworkImage(imageUrl), // Use NetworkImage for URLs
-                fit: BoxFit.cover,
+              const Text("Rekomendasi Pilihan",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8.0),
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: 200.0,
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: true,
+                  autoPlay: true,
+                ),
+                items: imgList.map((imageUrl) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return GestureDetector(
+                        onTap: () {
+                          // Navigate to PromoDetailPage when tapped
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PromoDetailPage()),
+                          );
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  imageUrl), // Use NetworkImage for URLs
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }).toList(),
               ),
-            ),
-          ),
-        );
-      },
-    );
-  }).toList(),
-),
             ],
           ),
         ),

@@ -21,6 +21,8 @@ Future<void> _checkPermissions() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(), // Home page after PIN is entered
         '/profile': (context) => ProfilePage(),
         '/history': (context) => HistoryPage(),
-        '/pay':(context) => CameraPage(),
+        '/pay': (context) => CameraPage(),
       },
     );
   }
