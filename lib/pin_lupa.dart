@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'pin_code.dart';
+import 'profile.dart';
 
 class ForgotPinPage extends StatefulWidget {
-  const ForgotPinPage({super.key});
+  final String fromPage; // Menentukan asal halaman
+
+  const ForgotPinPage({Key? key, required this.fromPage}) : super(key: key);
 
   @override
   _ForgotPinPageState createState() => _ForgotPinPageState();
@@ -25,7 +28,6 @@ class _ForgotPinPageState extends State<ForgotPinPage> {
   }
 
   Future<void> _confirmPin() async {
-    // Check if the fields are empty
     if (_emailOrPhoneController.text.isEmpty ||
         _passwordController.text.isEmpty ||
         _newPinController.text.isEmpty) {
@@ -42,9 +44,7 @@ class _ForgotPinPageState extends State<ForgotPinPage> {
           ],
         ),
       );
-    }
-    // Check if email is valid
-    else if (!_isValidEmail(_emailOrPhoneController.text)) {
+    } else if (!_isValidEmail(_emailOrPhoneController.text)) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -58,9 +58,7 @@ class _ForgotPinPageState extends State<ForgotPinPage> {
           ],
         ),
       );
-    }
-    // Check if PIN is valid (only digits and maximum length of 6)
-    else if (!_isValidPin(_newPinController.text)) {
+    } else if (!_isValidPin(_newPinController.text)) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -74,16 +72,21 @@ class _ForgotPinPageState extends State<ForgotPinPage> {
           ],
         ),
       );
-    }
-    else {
-      // Save the new PIN to shared preferences
+    } else {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('user_pin', _newPinController.text);
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const PinCodeWidget()),
-      );
+      if (widget.fromPage == 'pin_code') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const PinCodeWidget()),
+        );
+      } else if (widget.fromPage == 'profile') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const ProfilePage()),
+        );
+      }
     }
   }
 
@@ -100,10 +103,10 @@ class _ForgotPinPageState extends State<ForgotPinPage> {
         ),
         centerTitle: true,
         title: const Text(
-          'Ganti PIN', 
+          'Ganti PIN',
           style: TextStyle(
-            color: Colors.black, 
-            fontSize: 20, 
+            color: Colors.black,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -114,13 +117,9 @@ class _ForgotPinPageState extends State<ForgotPinPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Email / No. Telepon
               const Text(
                 'Email / No. Telepon',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                ),
+                style: TextStyle(fontSize: 16, color: Colors.black),
               ),
               const SizedBox(height: 8),
               Card(
@@ -140,14 +139,9 @@ class _ForgotPinPageState extends State<ForgotPinPage> {
                 ),
               ),
               const SizedBox(height: 16),
-
-              // Password
               const Text(
                 'Password',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                ),
+                style: TextStyle(fontSize: 16, color: Colors.black),
               ),
               const SizedBox(height: 8),
               Card(
@@ -165,9 +159,7 @@ class _ForgotPinPageState extends State<ForgotPinPage> {
                       border: InputBorder.none,
                       suffixIcon: IconButton(
                         icon: Icon(
-                          _isPasswordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                          _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
                         ),
                         onPressed: () {
                           setState(() {
@@ -180,14 +172,9 @@ class _ForgotPinPageState extends State<ForgotPinPage> {
                 ),
               ),
               const SizedBox(height: 16),
-
-              // PIN Baru
               const Text(
                 'PIN Baru',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                ),
+                style: TextStyle(fontSize: 16, color: Colors.black),
               ),
               const SizedBox(height: 8),
               Card(
@@ -206,9 +193,7 @@ class _ForgotPinPageState extends State<ForgotPinPage> {
                       border: InputBorder.none,
                       suffixIcon: IconButton(
                         icon: Icon(
-                          _isNewPinVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                          _isNewPinVisible ? Icons.visibility : Icons.visibility_off,
                         ),
                         onPressed: () {
                           setState(() {
@@ -221,18 +206,11 @@ class _ForgotPinPageState extends State<ForgotPinPage> {
                 ),
               ),
               const SizedBox(height: 24),
-
-              // Confirmation Text
               const Text(
                 'Klik Confirm untuk melanjutkan',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                ),
+                style: TextStyle(fontSize: 14, color: Colors.black),
               ),
               const SizedBox(height: 16),
-
-              // Confirm Button
               Container(
                 width: double.infinity,
                 height: 50,
