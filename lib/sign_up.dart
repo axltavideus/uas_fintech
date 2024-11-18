@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'auth_service.dart';
 import 'login.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -31,28 +32,34 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  // Method to handle sign-up
-  void _handleSignUp(BuildContext context) {
-    // Check if any fields are empty
-    if (nameController.text.isEmpty ||
-        phoneController.text.isEmpty ||
-        emailController.text.isEmpty ||
+  final AuthService _authService = AuthService();
+
+  void _handleSignUp(BuildContext context) async {
+    if (emailController.text.isEmpty ||
         passwordController.text.isEmpty ||
         confirmPasswordController.text.isEmpty) {
       _showWarningDialog(context, 'Please fill in all fields');
       return;
     }
-    // Check if password and confirm password match
     if (passwordController.text != confirmPasswordController.text) {
       _showWarningDialog(context, 'Passwords do not match');
       return;
     }
 
-    // If all validations pass, proceed to the login page
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
+    // Proses registrasi
+    final user = await _authService.signUp(
+      emailController.text,
+      passwordController.text,
     );
+
+    if (user != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
+    } else {
+      _showWarningDialog(context, 'Sign Up failed. Please try again.');
+    }
   }
 
   @override
@@ -79,14 +86,12 @@ class SignUpPage extends StatelessWidget {
               const SizedBox(height: 10),
 
               // Lock Icon
-              Center(
-                child: SizedBox(
-                  width: 200, // Atur lebar logo yang diinginkan
-                  height: 200, // Atur tinggi logo yang diinginkan
-                  child: Image.network(
-                      'https://i.ibb.co.com/ZSmbfGS/Logo-App-removebg-preview.png'),
-                ),
+              const Icon(
+                Icons.lock,
+                size: 100,
+                color: Colors.grey,
               ),
+              const SizedBox(height: 40),
 
               // Nama Lengkap Card
               Card(
