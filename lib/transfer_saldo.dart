@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'pin_code.dart';
 import 'package:intl/intl.dart';
 
 class TransferSaldoPage extends StatefulWidget {
@@ -69,12 +70,23 @@ class _TransferSaldoPageState extends State<TransferSaldoPage> {
       return;
     }
 
-    // Update balance and record transaction
-    await _updateBalance(amount);
-    await _recordTransaction(amount, destination);
+    // Navigasikan ke halaman PIN untuk validasi transaksi
+    final isPinValid = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const PinCodeWidget(isForTransaction: true),
+      ),
+    );
 
-    _showMessage("Transfer successful!", isSuccess: true);
-    Navigator.pop(context, true);
+    // Jika PIN valid, lanjutkan transaksi
+    if (isPinValid == true) {
+      await _updateBalance(amount);
+      await _recordTransaction(amount, destination);
+      _showMessage("Transfer successful!", isSuccess: true);
+      Navigator.pop(context, true);
+    } else {
+      _showMessage("Transaction cancelled.");
+    }
   }
 
   // Show success or error message
