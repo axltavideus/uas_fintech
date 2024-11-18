@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'pin_code.dart';
+import 'package:intl/intl.dart';
 
 class TransferSaldoPage extends StatefulWidget {
   @override
@@ -135,7 +136,7 @@ class _TransferSaldoPageState extends State<TransferSaldoPage> {
             SizedBox(height: 16.0),
 
             // Display current balance
-            Text("Available Balance: Rp. $_currentBalance", style: TextStyle(fontSize: 16)),
+            Text("Available Balance: Rp. ${NumberFormat('#,###').format(_currentBalance)}", style: TextStyle(fontSize: 16)),
           ],
         ),
       ),

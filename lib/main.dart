@@ -5,6 +5,7 @@ import 'pin_code.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'history_page.dart';
 import 'profile.dart';
+import 'topup_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(), // Home page after PIN is entered
         '/profile': (context) => ProfilePage(),
         '/history': (context) => HistoryPage(),
+        '/topup': (context) => TopUpPage(), // Add this line
         '/pay': (context) => CameraPage(),
       },
     );
