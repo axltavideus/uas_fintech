@@ -9,7 +9,9 @@ import 'package:uas_fintech/promo_detail_page.dart';
 import 'bottom_nav_bar.dart';
 import 'sign_up.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 import 'topup_page.dart';
+import 'otheruser_page.dart';
 import 'history_page.dart';
 import 'transfer_saldo.dart';
 
@@ -37,11 +39,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _updateTopUpAmount() async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => TopUpPage()),
-    );
-    _loadTopUpAmount(); // Refresh top-up amount after returning
+    _loadTopUpAmount(); // Reload balance only if top-up was successful
   }
 
   void _onNavBarTap(int index) {
@@ -102,12 +100,12 @@ class _HomePageState extends State<HomePage> {
               // Welcome Section
               Row(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     backgroundImage:
                         NetworkImage('https://via.placeholder.com/50'),
                   ),
                   SizedBox(width: 8.0),
-                  Column(
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Welcome back,",
@@ -152,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                         style: TextStyle(color: Colors.white)),
                     const SizedBox(height: 8.0),
                     Text(
-                      "Rp. $_currentBalance", // Display the dynamic top-up amount
+                      "Rp. ${NumberFormat('#,###').format(_currentBalance)}", // Display the dynamic top-up amount
                       style: const TextStyle(
                           fontSize: 24,
                           color: Colors.white,
@@ -224,16 +222,29 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 8.0),
               Row(
                 children: otherPeople.map((person) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(person["imageUrl"]!),
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OtherUserPage(
+                            name: person["name"]!,
+                            imageUrl: person["imageUrl"]!,
+                          ),
                         ),
-                        const SizedBox(height: 4.0),
-                        Text(person["name"]!),
-                      ],
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(person["imageUrl"]!),
+                          ),
+                          const SizedBox(height: 4.0),
+                          Text(person["name"]!),
+                        ],
+                      ),
                     ),
                   );
                 }).toList(),
