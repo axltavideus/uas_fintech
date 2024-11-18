@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+// Removed duplicate import
 import 'package:uas_fintech/camera_page.dart';
 import 'package:uas_fintech/detail_transaction.dart';
 import 'package:uas_fintech/history_page.dart';
@@ -12,7 +13,7 @@ import 'package:intl/intl.dart';
 import 'topup_page.dart';
 import 'otheruser_page.dart';
 import 'history_page.dart';
-
+import 'transfer_saldo.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -73,9 +74,16 @@ class _HomePageState extends State<HomePage> {
   ];
 
   final List<String> imgList = [
-    'https://via.placeholder.com/50',
-    'https://via.placeholder.com/50',
-    'https://via.placeholder.com/50',
+    'https://bankmega.com/media/filer_public/7c/fd/7cfdf499-4b4f-42a8-abfd-a2f3c4cda8e1/0d-bm-banner-shopee.jpg',
+    'https://ichef.bbci.co.uk/news/1024/branded_news/14E77/production/_133532658_ukraine-russia-promo.png', 
+    'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgTr074wf0VhmJLJHRpGKcxxkeo34RcDV3btrVOMzzRCovMlgr_nXOuoqdmma0eHyqY0toO_i5RLNM2YjrnahYXNw_or7h--tEDsmImYjOYQqmbr4wd7N_LULrVVckyAV5Hxs5ceyb4ocjOJPkevkSDSINZ5nCxg9SwfsmfqkF0U1cikdDO-sWZ1pQONA/s800/smart-power-all-50-sim-registered-promo.png', 
+  ];
+
+  final List<Widget> promoPages = [
+    PromoDetailPage(),
+    // Replace PromoDetailPage1 and PromoDetailPage2 with placeholders if they're missing
+    Scaffold(appBar: AppBar(title: Text("Promo Detail 1 Placeholder")), body: Center(child: Text("Promo Detail 1"))),
+    Scaffold(appBar: AppBar(title: Text("Promo Detail 2 Placeholder")), body: Center(child: Text("Promo Detail 2"))),
   ];
 
   @override
@@ -172,12 +180,14 @@ class _HomePageState extends State<HomePage> {
                           child: IconButton(
                             icon: const Icon(Iconsax.money_send,
                                 color: Color.fromARGB(255, 51, 62, 221)),
-                            onPressed: () {
-                              Navigator.pushReplacement(
+                            onPressed: () async {
+                              final result = await Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => TopUpPage()),
+                                MaterialPageRoute(builder: (context) => TransferSaldoPage()),
                               );
+                              if (result == true) {
+                                _loadTopUpAmount();
+                              }
                             },
                           ),
                         ),
