@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:uas_fintech/camera_page.dart';
+import 'package:uas_fintech/detail_transaction.dart';
+import 'package:uas_fintech/history_page.dart';
 import 'package:uas_fintech/promo_detail_page.dart';
 import 'bottom_nav_bar.dart';
 import 'sign_up.dart';
@@ -9,6 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'topup_page.dart';
 import 'otheruser_page.dart';
+import 'history_page.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -237,43 +241,54 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 16.0),
 
-              // Recent Transactions Section
+// Recent Transactions Section
               const Text("Recent Transaction",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8.0),
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("30 Okt 2024",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text("Nasi goreng pakde har"),
-                        Text("-IDR 28.000.00",
-                            style: TextStyle(color: Colors.red)),
-                      ],
-                    ),
-                    Chip(
-                      label: const Text(
-                        "Berhasil",
-                        style: TextStyle(color: Color.fromARGB(255, 1, 92, 12)),
+              
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HistoryPage()),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("30 Okt 2024",
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text("Nasi goreng pakde har"),
+                          Text("-IDR 28.000.00",
+                              style: TextStyle(color: Colors.red)),
+                        ],
                       ),
-                      backgroundColor: const Color.fromARGB(255, 146, 248, 180),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0, vertical: 4.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
+                      Chip(
+                        label: const Text(
+                          "Berhasil",
+                          style:
+                              TextStyle(color: Color.fromARGB(255, 1, 92, 12)),
+                        ),
+                        backgroundColor:
+                            const Color.fromARGB(255, 146, 248, 180),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 4.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
                       ),
-                    ),
-                    const Icon(Icons.arrow_forward_ios),
-                  ],
+                      const Icon(Icons.arrow_forward_ios),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 16.0),

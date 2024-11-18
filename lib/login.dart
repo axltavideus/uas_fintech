@@ -73,12 +73,14 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.lock_open,
-                    size: 100,
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(height: 30), // Kurangi ukuran spacing
+                  Center(
+                    child: SizedBox(
+                      width: 200, // Atur lebar logo yang diinginkan
+                      height: 200, // Atur tinggi logo yang diinginkan
+                      child: Image.network(
+                          'https://i.ibb.co.com/ZSmbfGS/Logo-App-removebg-preview.png'),
+                    ),
+                  ), // Kurangi ukuran spacing
 
                   // Input Card for Email
                   Card(
