@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'transfer_saldo.dart';
 
 class OtherUserPage extends StatelessWidget {
   final String name;
@@ -62,7 +63,10 @@ class OtherUserPage extends StatelessWidget {
                   width: 150, // Set fixed width for buttons
                   child: ElevatedButton(
                     onPressed: () {
-                      // Add functionality for Pay button
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => TransferSaldoPage()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 51, 62, 221),

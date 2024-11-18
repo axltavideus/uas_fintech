@@ -118,7 +118,7 @@ class TopUpPage extends StatelessWidget {
                     }));
 
                     await prefs.setStringList('transactionHistory', history);
-                    Navigator.pop(context); // Return to HomePage
+                    Navigator.pop(context, true); // Return to HomePage
                   }
                 },
                 child: const Row(
