@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:uas_fintech/home_page.dart';
 import 'bottom_nav_bar.dart';
+import 'transfer_saldo.dart';
 
 late List<CameraDescription> _cameras;
 
@@ -109,14 +110,19 @@ class _CameraPageState extends State<CameraPage> {
           Padding(
             padding: const EdgeInsets.all(16.0), // Add some padding
             child: ElevatedButton(
-              onPressed: () {
-                // Action for Transfer Bank button
+              onPressed: () async {
+                // Navigate to TransferSaldoPage
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TransferSaldoPage()),
+                );
+                // Optionally, handle result if needed
               },
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 8.0)),
               child: const Column(

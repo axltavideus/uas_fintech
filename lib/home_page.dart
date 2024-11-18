@@ -10,7 +10,8 @@ import 'bottom_nav_bar.dart';
 import 'sign_up.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'topup_page.dart';
-
+import 'history_page.dart';
+import 'transfer_saldo.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -181,7 +182,15 @@ class _HomePageState extends State<HomePage> {
                           child: IconButton(
                             icon: const Icon(Iconsax.money_send,
                                 color: Color.fromARGB(255, 51, 62, 221)),
-                            onPressed: () {},
+                            onPressed: () async {
+                              final result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => TransferSaldoPage()),
+                              );
+                              if (result == true) {
+                                _loadTopUpAmount();
+                              }
+                            },
                           ),
                         ),
                         Container(
