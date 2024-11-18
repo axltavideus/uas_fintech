@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-// Removed duplicate import
 import 'package:uas_fintech/camera_page.dart';
 import 'package:uas_fintech/detail_transaction.dart';
 import 'package:uas_fintech/history_page.dart';
