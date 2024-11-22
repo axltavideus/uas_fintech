@@ -26,9 +26,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:409745870124:android:144e39d2ed74284a3bb089",
+        "mobilesdk_app_id": "1:409745870124:android:0a7299830d73c04f3bb089",
         "android_client_info": {
-          "package_name": "dev.flutter.provider_shopper"
+          "package_name": "com.fintech.app"
         }
       },
       "oauth_client": [],

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:uas_fintech/home_page.dart';
 import 'bottom_nav_bar.dart';
-import 'transfer_saldo.dart';
 
 late List<CameraDescription> _cameras;
 
@@ -93,7 +92,7 @@ class _CameraPageState extends State<CameraPage> {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => const HomePage()),
             );
           },
         ),
@@ -114,7 +113,7 @@ class _CameraPageState extends State<CameraPage> {
                 // Navigate to TransferSaldoPage
                 final result = await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => TransferSaldoPage()),
+                  MaterialPageRoute(builder: (context) => const MetodePay()),
                 );
                 // Optionally, handle result if needed
               },

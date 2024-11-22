@@ -3,7 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'pin_lupa.dart';
 
 class PinCodeWidget extends StatefulWidget {
-  const PinCodeWidget({super.key});
+  final bool isForTransaction; // Menentukan apakah digunakan untuk transaksi
+
+  const PinCodeWidget({super.key, this.isForTransaction = false});
 
   @override
   State<PinCodeWidget> createState() => _PinCodeWidgetState();

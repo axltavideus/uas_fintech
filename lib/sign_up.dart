@@ -53,6 +53,15 @@ class SignUpPage extends StatelessWidget {
       context,
       MaterialPageRoute(builder: (context) => LoginPage()),
     );
+
+    if (user != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+      );
+    } else {
+      _showWarningDialog(context, 'Sign Up failed. Please try again.');
+    }
   }
 
   @override
@@ -229,7 +238,7 @@ class SignUpPage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
+                        MaterialPageRoute(builder: (context) => const LoginPage()),
                       );
                     },
                     child: Text(

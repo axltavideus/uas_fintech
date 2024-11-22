@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 
 class TransferSaldoPage extends StatefulWidget {
+  const TransferSaldoPage({super.key});
+
   @override
   _TransferSaldoPageState createState() => _TransferSaldoPageState();
 }
@@ -90,7 +92,7 @@ class _TransferSaldoPageState extends State<TransferSaldoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Transfer Saldo"),
+        title: const Text("Transfer Saldo"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -99,31 +101,31 @@ class _TransferSaldoPageState extends State<TransferSaldoPage> {
             // Destination input field
             TextField(
               controller: _destinationController,
-              decoration: InputDecoration(labelText: "Destination (Rekening/Nomor Telepon)"),
+              decoration: const InputDecoration(labelText: "Destination (Rekening/Nomor Telepon)"),
               keyboardType: TextInputType.number,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
               ],
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
 
             // Amount input field
             TextField(
               controller: _amountController,
-              decoration: InputDecoration(labelText: "Nominal"),
+              decoration: const InputDecoration(labelText: "Nominal"),
               keyboardType: TextInputType.number,
             ),
-            SizedBox(height: 24.0),
+            const SizedBox(height: 24.0),
 
             // Confirm button
             ElevatedButton(
               onPressed: _onConfirm,
-              child: Text("Confirm Transfer"),
+              child: const Text("Confirm Transfer"),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
 
             // Display current balance
-            Text("Available Balance: Rp. $_currentBalance", style: TextStyle(fontSize: 16)),
+            Text("Available Balance: Rp. ${NumberFormat('#,###').format(_currentBalance)}", style: const TextStyle(fontSize: 16)),
           ],
         ),
       ),

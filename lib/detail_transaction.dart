@@ -8,7 +8,7 @@ class DetailTransaction extends StatelessWidget {
   final String sourceAccount;
   final String amount;
 
-  const DetailTransaction({
+  const DetailTransaction({super.key, 
     required this.recipient,
     required this.targetAccount,
     required this.transactionType,
@@ -20,44 +20,44 @@ class DetailTransaction extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('DOMPT'),
+        title: const Text('DOMPT'),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Iconsax.arrow_left_2),
+          icon: const Icon(Iconsax.arrow_left_2),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 20),
-            Icon(
+            const SizedBox(height: 20),
+            const Icon(
               Icons.check_circle,
               size: 100,
               color: Colors.blue,
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Pembayaran Berhasil',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               amount,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.blue,
               ),
             ),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             buildInfoRow('Pembayaran ke', recipient),
             buildInfoRow('Transfer ke', targetAccount),
             buildInfoRow('Jenis Transaksi', transactionType),
@@ -76,13 +76,13 @@ class DetailTransaction extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
             ),
           ),
           Text(
             value,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),

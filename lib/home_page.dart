@@ -12,8 +12,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'topup_page.dart';
 import 'history_page.dart';
 import 'transfer_saldo.dart';
+import 'promo_detail_page1.dart';
+import 'promo_detail_page2.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -82,10 +86,9 @@ class _HomePageState extends State<HomePage> {
   ];
 
   final List<Widget> promoPages = [
-    PromoDetailPage(),
-    // Replace PromoDetailPage1 and PromoDetailPage2 with placeholders if they're missing
-    Scaffold(appBar: AppBar(title: Text("Promo Detail 1 Placeholder")), body: Center(child: Text("Promo Detail 1"))),
-    Scaffold(appBar: AppBar(title: Text("Promo Detail 2 Placeholder")), body: Center(child: Text("Promo Detail 2"))),
+    const PromoDetailPage(),      // First promo page
+    const PromoDetailPage1(),     // Second promo page
+    const PromoDetailPage2(),           // Third promo page
   ];
 
   @override
@@ -106,8 +109,8 @@ class _HomePageState extends State<HomePage> {
                     backgroundImage:
                         NetworkImage('https://via.placeholder.com/50'),
                   ),
-                  SizedBox(width: 8.0),
-                  Column(
+                  const SizedBox(width: 8.0),
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Welcome back,",
@@ -117,9 +120,9 @@ class _HomePageState extends State<HomePage> {
                               fontSize: 20, fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                   IconButton(
-                    icon: Icon(Icons.exit_to_app_rounded),
+                    icon: const Icon(Icons.exit_to_app_rounded),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -185,7 +188,8 @@ class _HomePageState extends State<HomePage> {
                             onPressed: () async {
                               final result = await Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => TransferSaldoPage()),
+                                MaterialPageRoute(
+                                    builder: (context) => const TransferSaldoPage()),
                               );
                               if (result == true) {
                                 _loadTopUpAmount();
@@ -205,7 +209,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => CameraPage()),
+                                    builder: (context) => const CameraPage()),
                               );
                             },
                           ),
@@ -249,7 +253,7 @@ class _HomePageState extends State<HomePage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HistoryPage()),
+                    MaterialPageRoute(builder: (context) => const HistoryPage()),
                   );
                 },
                 child: Container(
@@ -303,16 +307,19 @@ class _HomePageState extends State<HomePage> {
                   enableInfiniteScroll: true,
                   autoPlay: true,
                 ),
-                items: imgList.map((imageUrl) {
+                items: imgList.asMap().entries.map((entry) {
+                  int index = entry.key; // Index gambar
+                  String imageUrl = entry.value; // URL gambar
                   return Builder(
                     builder: (BuildContext context) {
                       return GestureDetector(
                         onTap: () {
-                          // Navigate to PromoDetailPage when tapped
+                          // Navigasi ke halaman promo berdasarkan index
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PromoDetailPage()),
+                              builder: (context) => promoPages[index],
+                            ),
                           );
                         },
                         child: Container(
@@ -321,8 +328,7 @@ class _HomePageState extends State<HomePage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image: NetworkImage(
-                                  imageUrl), // Use NetworkImage for URLs
+                              image: NetworkImage(imageUrl), // Gunakan URL gambar
                               fit: BoxFit.cover,
                             ),
                           ),

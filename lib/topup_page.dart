@@ -6,6 +6,8 @@ import 'dart:convert';
 class TopUpPage extends StatelessWidget {
   final TextEditingController _amountController = TextEditingController();
 
+  TopUpPage({super.key});
+
   Future<void> _addAmount(String amount) async {
     final prefs = await SharedPreferences.getInstance();
     final currentBalance = prefs.getInt('topUpAmount') ??
@@ -31,7 +33,10 @@ class TopUpPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Iconsax.arrow_left_2, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
           },
         ),
       ),

@@ -3,7 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'pin_code.dart';
 
 class ForgotPinPage extends StatefulWidget {
-  const ForgotPinPage({super.key});
+  final String fromPage; // Menentukan asal halaman
+
+  const ForgotPinPage({super.key, required this.fromPage});
 
   @override
   _ForgotPinPageState createState() => _ForgotPinPageState();

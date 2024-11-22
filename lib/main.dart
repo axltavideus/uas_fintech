@@ -24,7 +24,7 @@ void main() async {
   }
   WidgetsFlutterBinding.ensureInitialized();
   await _checkPermissions();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 // Function to check and request camera permissions
@@ -50,11 +50,12 @@ class MyApp extends StatelessWidget {
       initialRoute: '/pin',
       // Define the available routes
       routes: {
-        '/pin': (context) => PinCodeWidget(), // Pin code entry page
-        '/home': (context) => HomePage(), // Home page after PIN is entered
-        '/profile': (context) => ProfilePage(),
-        '/history': (context) => HistoryPage(),
-        '/pay': (context) => CameraPage(),
+        '/pin': (context) => const PinCodeWidget(), // Pin code entry page
+        '/home': (context) => const HomePage(), // Home page after PIN is entered
+        '/profile': (context) => const ProfilePage(),
+        '/history': (context) => const HistoryPage(),
+        '/topup': (context) => TopUpPage(), // Add this line
+        '/pay': (context) => const CameraPage(),
       },
     );
   }

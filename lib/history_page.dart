@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:iconsax/iconsax.dart';
 
 class HistoryPage extends StatefulWidget {
+  const HistoryPage({super.key});
+
   @override
   _HistoryPageState createState() => _HistoryPageState();
 }
@@ -18,6 +20,7 @@ class _HistoryPageState extends State<HistoryPage> {
   List<Map<String, dynamic>> _filteredHistory = [];
   DateTime? _selectedDate;
 
+  @override
   void initState() {
     super.initState();
     _loadTransactionHistory();
@@ -77,12 +80,12 @@ class _HistoryPageState extends State<HistoryPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Iconsax.arrow_left_2),
+          icon: const Icon(Iconsax.arrow_left_2),
           color: Colors.white,
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => const HomePage()),
             );
           },
         ),
@@ -93,7 +96,7 @@ class _HistoryPageState extends State<HistoryPage> {
         backgroundColor: const Color.fromARGB(255, 56, 68, 244),
         actions: [
           IconButton(
-            icon: Icon(Icons.calendar_today),
+            icon: const Icon(Icons.calendar_today),
             color: Colors.white,
             onPressed: _selectDate,
           ),
@@ -106,7 +109,7 @@ class _HistoryPageState extends State<HistoryPage> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'Transactions for ${DateFormat('dd MMM yyyy').format(_selectedDate!)}',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
           Expanded(
@@ -132,7 +135,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         );
                       },
                       leading: Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -140,12 +143,12 @@ class _HistoryPageState extends State<HistoryPage> {
                             Text(
                               DateFormat('dd MMM').format(DateTime.parse(transaction['date'])),
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                             ),
                             Text(
                               DateTime.parse(transaction['date']).year.toString(),
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
@@ -155,7 +158,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(transaction['transactionType']),
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
                           Text(
                             transaction['amount'],
                             style: TextStyle(
@@ -165,7 +168,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         ],
                       ),
                     ),
-                    Divider(  
+                    const Divider(  
                       indent: 0,
                       thickness: 1,
                       endIndent: 0,

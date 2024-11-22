@@ -19,7 +19,7 @@ class PromoDetailPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => HomePage())
+            MaterialPageRoute(builder: (context) => const HomePage())
             );
           },
         ),
