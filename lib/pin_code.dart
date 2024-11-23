@@ -3,7 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'pin_lupa.dart';
 
 class PinCodeWidget extends StatefulWidget {
-  const PinCodeWidget({super.key});
+  final bool isForTransaction; // Menentukan apakah digunakan untuk transaksi
+
+  const PinCodeWidget({Key? key, this.isForTransaction = false}) : super(key: key);
 
   @override
   State<PinCodeWidget> createState() => _PinCodeWidgetState();
@@ -55,7 +57,13 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
 
   void _validatePin() {
     if (enteredPin == correctPin) {
-      Navigator.pushReplacementNamed(context, '/home');
+      if (widget.isForTransaction) {
+        // Kembali ke halaman sebelumnya dengan nilai true jika untuk transaksi
+        Navigator.pop(context, true);
+      } else {
+        // Navigasi ke halaman utama jika untuk membuka aplikasi
+        Navigator.pushReplacementNamed(context, '/home');
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Incorrect PIN, try again!')),
@@ -193,7 +201,7 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ForgotPinPage(),
+                          builder: (context) => const ForgotPinPage(fromPage: 'pin_code',),
                         ),
                       );
                     },

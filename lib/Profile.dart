@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'bottom_nav_bar.dart';
 import 'customerservice.dart';
+import 'pin_lupa.dart'; // Import untuk ForgotPinPage
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -39,14 +40,14 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(vertical: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20),
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [Color.fromARGB(255, 35, 43, 156), Color.fromARGB(255, 56, 68, 244)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
-                borderRadius: const BorderRadius.vertical(
+                borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(20),
                 ),
               ),
@@ -57,7 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     backgroundImage:
                         AssetImage('assets/profile_picture.jpg'), 
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   const Text(
                     'Randy',
                     style: TextStyle(
@@ -69,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(height: 5),
                   ElevatedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.qr_code, color: Colors.white),
+                    icon: const Icon(Icons.qr_code, color: Colors.white),
                     label: const Text(
                       "QR SAYA",
                       style: TextStyle(color: Colors.white),
@@ -95,8 +96,18 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(height: 10),
                   buildProfileField("Email", "Axel@gmail.com"),
                   const SizedBox(height: 20),
+
+                  // Tombol Ubah Security Code
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Navigasi ke ForgotPinPage
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ForgotPinPage(fromPage: 'profile'),
+                        ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
@@ -105,15 +116,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: Text("Ubah Security Code"),
+                    child: const Text("Ubah Security Code"),
                   ),
+
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const CustomerServiceScreen(),
+                          builder: (context) => CustomerServiceScreen(),
                         ),
                       );
                     },
@@ -143,10 +155,9 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
       ),
-      // Replacing the default BottomNavigationBar with BottomNavBar
       bottomNavigationBar: BottomNavBar(
         selectedIndex: _selectedIndex,
-        onTap: _onNavBarTap, // Adding navigation logic
+        onTap: _onNavBarTap,
       ),
     );
   }
