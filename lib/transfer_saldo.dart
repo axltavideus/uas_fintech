@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'pin_code.dart';
 import 'package:intl/intl.dart';
+import 'package:iconsax/iconsax.dart';
+import 'metode_transfer.dart';
 
 class TransferSaldoPage extends StatefulWidget {
   @override
@@ -104,6 +106,16 @@ class _TransferSaldoPageState extends State<TransferSaldoPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Transfer Saldo"),
+        leading: IconButton(
+          icon: Icon(Iconsax.arrow_left_2),
+          color: Colors.black,
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => MetodePay()),
+            );
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

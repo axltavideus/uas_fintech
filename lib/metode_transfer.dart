@@ -15,7 +15,7 @@ class MetodePay extends StatelessWidget {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => CameraPage()),
+              MaterialPageRoute(builder: (context) => HomePage()),
             );
           },
         ),

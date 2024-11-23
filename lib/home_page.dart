@@ -4,15 +4,20 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:uas_fintech/camera_page.dart';
 import 'package:uas_fintech/detail_transaction.dart';
 import 'package:uas_fintech/history_page.dart';
+import 'package:uas_fintech/metode_transfer.dart';
 import 'package:uas_fintech/promo_detail_page.dart';
 import 'bottom_nav_bar.dart';
 import 'sign_up.dart';
+import 'login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'topup_page.dart';
 import 'otheruser_page.dart';
 import 'history_page.dart';
 import 'transfer_saldo.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -22,23 +27,32 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   int _currentBalance = 0;
+  List<Map<String, dynamic>> _recentTransactions = []; 
 
   @override
   void initState() {
     super.initState();
     _loadTopUpAmount();
+    _loadTransactionHistory();
   }
 
   Future<void> _loadTopUpAmount() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _currentBalance = prefs.getInt('topUpAmount') ??
-          0; // Ensure it’s retrieved as an integer
+      _currentBalance = prefs.getInt('topUpAmount') ?? 0; // Ensure it’s retrieved as an integer
     });
   }
 
   Future<void> _updateTopUpAmount() async {
     _loadTopUpAmount(); // Reload balance only if top-up was successful
+  }
+
+  void _loadTransactionHistory() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> history = prefs.getStringList('transactionHistory') ?? [];
+    setState(() {
+      _recentTransactions = history.reversed.take(1).map((item) => jsonDecode(item) as Map<String, dynamic>).toList();
+    });
   }
 
   void _onNavBarTap(int index) {
@@ -55,6 +69,42 @@ class _HomePageState extends State<HomePage> {
     } else if (index == 3) {
       Navigator.pushReplacementNamed(context, '/profile');
     }
+  }
+
+  Future<bool?> _showLogoutDialog() async {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false, // Prevent dismissing by tapping outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Konfirmasi Logout"),
+          content: Text("Apakah Anda yakin ingin keluar?"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // If canceled
+              },
+              child: Text("Batal"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // If confirmed
+
+                // Use addPostFrameCallback to navigate after the dialog is dismissed
+                WidgetsBinding.instance.addPostFrameCallback((_) async {
+                  final user = FirebaseAuth.instance.currentUser;
+                  if (user != null) {
+                    await FirebaseAuth.instance.signOut();
+                  }
+                  Navigator.pushReplacementNamed(context, '/login');
+                });
+              },
+              child: Text("Keluar"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   final List<Map<String, String>> otherPeople = [
@@ -121,11 +171,17 @@ class _HomePageState extends State<HomePage> {
                   Spacer(),
                   IconButton(
                     icon: Icon(Icons.exit_to_app_rounded),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()),
-                      );
+                    onPressed: () async {
+                      final confirmLogout = await _showLogoutDialog();
+                      if (confirmLogout ?? false) {
+                        final user = FirebaseAuth.instance.currentUser;
+                        if (user != null) {
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.pushReplacementNamed(context, '/login');
+                        } else {
+                          Navigator.pushReplacementNamed(context, '/login');
+                        }
+                      }
                     },
                   ),
                 ],
@@ -179,6 +235,7 @@ class _HomePageState extends State<HomePage> {
                               );
                               if (result == true) {
                                 _loadTopUpAmount(); // Update the displayed balance
+                                _loadTransactionHistory();  // Reload transaction history
                               }
                             },
                           ),
@@ -195,10 +252,11 @@ class _HomePageState extends State<HomePage> {
                               final result = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => TransferSaldoPage()),
+                                    builder: (context) => MetodePay()),
                               );
                               if (result == true) {
                                 _loadTopUpAmount();
+                                _loadTransactionHistory(); 
                               }
                             },
                           ),
@@ -263,59 +321,80 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 16.0),
 
-// Recent Transactions Section
-              const Text("Recent Transaction",
+              // Recent Transactions Section
+              const Text("Recent Transaction", 
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8.0),
-
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HistoryPage()),
-                  );
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Column(
+              if (_recentTransactions.isNotEmpty)
+                GestureDetector(
+                  onTap: () {
+                    final latestTransaction = _recentTransactions[0];
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailTransaction(
+                          recipient: latestTransaction['recipient'],
+                          targetAccount: latestTransaction['targetAccount'],
+                          transactionType: latestTransaction['transactionType'],
+                          sourceAccount: latestTransaction['sourceAccount'],
+                          amount: latestTransaction['amount'],
+                        ),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    margin: EdgeInsets.all(10),
+                    elevation: 5,
+                    child: ListTile(
+                      contentPadding: EdgeInsets.all(15),
+                      leading: Container(
+                        padding: EdgeInsets.all(8),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              DateFormat('dd MMM').format(DateTime.parse(_recentTransactions[0]['date'])),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                            ),
+                            Text(
+                              DateTime.parse(_recentTransactions[0]['date']).year.toString(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                      title: Text(_recentTransactions[0]['recipient']),
+                      subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("30 Okt 2024",
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text("Nasi goreng pakde har"),
-                          Text("-IDR 28.000.00",
-                              style: TextStyle(color: Colors.red)),
+                          Text(_recentTransactions[0]['transactionType']),
+                          SizedBox(height: 5),
+                          Text(
+                            _recentTransactions[0]['amount'],
+                            style: TextStyle(
+                              color: _recentTransactions[0]['amount'].contains('+') ? Colors.green : Colors.redAccent,
+                            ),
+                          ),
                         ],
                       ),
-                      Chip(
-                        label: const Text(
-                          "Berhasil",
-                          style:
-                              TextStyle(color: Color.fromARGB(255, 1, 92, 12)),
-                        ),
-                        backgroundColor:
-                            const Color.fromARGB(255, 146, 248, 180),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12.0, vertical: 4.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                      ),
-                      const Icon(Icons.arrow_forward_ios),
-                    ],
+                      trailing: Icon(Icons.arrow_forward_ios),
+                    ),
                   ),
                 ),
-              ),
+              if (_recentTransactions.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'No recent transactions.',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
               const SizedBox(height: 16.0),
 
-// Recommendation Section
+              // Recommendation Section
               const Text("Rekomendasi Pilihan",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8.0),
@@ -344,8 +423,7 @@ class _HomePageState extends State<HomePage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image: NetworkImage(
-                                  imageUrl), // Use NetworkImage for URLs
+                              image: NetworkImage(imageUrl),
                               fit: BoxFit.cover,
                             ),
                           ),
