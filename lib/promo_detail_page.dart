@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:uas_fintech/home_page.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: PromoDetailPage(),
   ));
 }
 
 class PromoDetailPage extends StatelessWidget {
+  const PromoDetailPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detail Promo'),
+        title: const Text('Detail Promo'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => HomePage())
@@ -41,13 +43,13 @@ class PromoDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20), // Space between banner and next section
+            const SizedBox(height: 20), // Space between banner and next section
 
             // Promo Section
             Container(
               width: double.infinity, // Makes the container full width
-              padding: EdgeInsets.all(16.0),
-              margin: EdgeInsets.symmetric(vertical: 10.0), // Adds vertical space
+              padding: const EdgeInsets.all(16.0),
+              margin: const EdgeInsets.symmetric(vertical: 10.0), // Adds vertical space
               decoration: BoxDecoration(
                 color: Colors.white, // Box background color
                 boxShadow: [
@@ -55,11 +57,11 @@ class PromoDetailPage extends StatelessWidget {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3), // Shadow position
+                    offset: const Offset(0, 3), // Shadow position
                   ),
                 ],
               ),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Promo title
@@ -83,8 +85,8 @@ class PromoDetailPage extends StatelessWidget {
             // Terms and Conditions Section
             Container(
               width: double.infinity, // Makes the container full width
-              padding: EdgeInsets.all(16.0),
-              margin: EdgeInsets.symmetric(vertical: 10.0), // Adds vertical space
+              padding: const EdgeInsets.all(16.0),
+              margin: const EdgeInsets.symmetric(vertical: 10.0), // Adds vertical space
               decoration: BoxDecoration(
                 color: Colors.white, // Box background color
                 boxShadow: [
@@ -92,11 +94,11 @@ class PromoDetailPage extends StatelessWidget {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3), // Shadow position
+                    offset: const Offset(0, 3), // Shadow position
                   ),
                 ],
               ),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Terms and conditions title

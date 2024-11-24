@@ -1,11 +1,16 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:uas_fintech/home_page.dart';
+import 'package:uas_fintech/metode_transfer.dart';
 import 'bottom_nav_bar.dart';
+import 'transfer_saldo.dart';
 
 late List<CameraDescription> _cameras;
 
 class CameraPage extends StatefulWidget {
+  const CameraPage({super.key});
+
   @override
   _CameraPageState createState() => _CameraPageState();
 }
@@ -60,7 +65,17 @@ class _CameraPageState extends State<CameraPage> {
     setState(() {
       _selectedIndex = index;
     });
-    // Handle page navigation if required
+
+    // Logic for navigating to different pages based on the index
+    if (index == 0) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else if (index == 1) {
+      // Navigate to Pay page
+    } else if (index == 2) {
+      Navigator.pushReplacementNamed(context, '/history');
+    } else if (index == 3) {
+      Navigator.pushReplacementNamed(context, '/profile');
+    }
   }
 
   @override
@@ -77,7 +92,10 @@ class _CameraPageState extends State<CameraPage> {
         leading: IconButton(
           icon: const Icon(Iconsax.arrow_left_2, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
           },
         ),
       ),
@@ -93,17 +111,21 @@ class _CameraPageState extends State<CameraPage> {
           Padding(
             padding: const EdgeInsets.all(16.0), // Add some padding
             child: ElevatedButton(
-              onPressed: () {
-                // Action for Transfer Bank button
+              onPressed: () async {
+                // Navigate to TransferSaldoPage
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MetodePay()),
+                );
+                // Optionally, handle result if needed
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16.0),
                 ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0)
-              ),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0)),
               child: const Column(
                 children: [
                   Icon(

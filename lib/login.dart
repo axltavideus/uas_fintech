@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'sign_up.dart';
 import 'home_page.dart';
-import 'forgot_pass.dart'; // Import halaman OTP untuk verifikasi
+import 'forgot_pass.dart';
+import 'auth_service.dart'; // Import halaman OTP untuk verifikasi
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,28 +15,64 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
+  bool _isLoading = false; // To show loading indicator while logging in
 
-  void _login() {
+  // Login function with validation and loading state
+  void _login() async {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("Warning"),
-          content: const Text("Please fill in all fields before logging in."),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text("OK"),
-            ),
-          ],
-        ),
-      );
-    } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
+      _showDialog("Warning", "Please fill in all fields before logging in.");
+      return;
     }
+
+    if (!_emailController.text.contains('@')) {
+      _showDialog("Invalid Email", "Please enter a valid email address.");
+      return;
+    }
+
+    setState(() {
+      _isLoading = true; // Show loading indicator
+    });
+
+    // Proses login
+    try {
+      final user = await _authService.login(
+        _emailController.text,
+        _passwordController.text,
+      );
+
+      if (user != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      } else {
+        _showDialog("Error", "Login failed. Please try again.");
+      }
+    } catch (e) {
+      _showDialog("Error", "An error occurred: $e");
+    } finally {
+      setState(() {
+        _isLoading = false; // Hide loading indicator after the process
+      });
+    }
+  }
+
+  // Function to show a simple dialog
+  void _showDialog(String title, String content) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -68,8 +106,7 @@ class _LoginPageState extends State<LoginPage> {
           // Login Form
           Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(
-                  16, 50, 16, 16), // Tambahkan padding top 50
+              padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -78,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                     size: 100,
                     color: Colors.grey,
                   ),
-                  const SizedBox(height: 30), // Kurangi ukuran spacing
+                  const SizedBox(height: 30),
 
                   // Input Card for Email
                   Card(
@@ -120,31 +157,34 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 24),
 
                   // Login Button with Gradient
-                  Container(
-                    width: double.infinity,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      gradient: const LinearGradient(
-                        colors: [Colors.blue, Colors.blueAccent],
-                      ),
-                    ),
-                    child: ElevatedButton(
-                      onPressed: _login,
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        backgroundColor: Colors.transparent,
-                        shadowColor: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                  _isLoading
+                      ? CircularProgressIndicator()
+                      : Container(
+                          width: double.infinity,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            gradient: const LinearGradient(
+                              colors: [Colors.blue, Colors.blueAccent],
+                            ),
+                          ),
+                          child: ElevatedButton(
+                            onPressed: _login,
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            child: const Text(
+                              'Login',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                          ),
                         ),
-                      ),
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                    ),
-                  ),
                   const SizedBox(height: 20),
 
                   // Sign Up Prompt and Forgot Password Link

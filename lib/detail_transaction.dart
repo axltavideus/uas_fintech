@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:intl/intl.dart'; 
 
 class DetailTransaction extends StatelessWidget {
   final String recipient;
@@ -22,7 +24,7 @@ class DetailTransaction extends StatelessWidget {
         title: Text('DOMPT'),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Iconsax.arrow_left_2),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -48,20 +50,20 @@ class DetailTransaction extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
+            // Format amount using the NumberFormat class
             Text(
-              amount,
+              "Rp. ${NumberFormat('#,###').format(double.parse(amount.replaceAll(RegExp(r'[^0-9.-]'), '')))}",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.blue,
+                color: amount.contains('-') ? Colors.redAccent : Colors.green, // Change color based on amount
               ),
             ),
             SizedBox(height: 50),
             buildInfoRow('Pembayaran ke', recipient),
             buildInfoRow('Transfer ke', targetAccount),
             buildInfoRow('Jenis Transaksi', transactionType),
-            buildInfoRow('Transfer', sourceAccount),
-            buildInfoRow('Nominal Tujuan', amount),
+            buildInfoRow('Jumlah Top Up', amount),
           ],
         ),
       ),
