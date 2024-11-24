@@ -6,10 +6,13 @@ import 'package:permission_handler/permission_handler.dart';
 import 'history_page.dart';
 import 'profile.dart';
 import 'topup_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _checkPermissions();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -42,6 +45,7 @@ class MyApp extends StatelessWidget {
         '/history': (context) => HistoryPage(),
         '/topup': (context) => TopUpPage(), // Add this line
         '/pay': (context) => CameraPage(),
+        '/login': (context) => LoginPage(),
       },
     );
   }

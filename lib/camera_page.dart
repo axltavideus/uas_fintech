@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:uas_fintech/home_page.dart';
+import 'package:uas_fintech/metode_transfer.dart';
 import 'bottom_nav_bar.dart';
 import 'transfer_saldo.dart';
 
@@ -114,7 +115,7 @@ class _CameraPageState extends State<CameraPage> {
                 // Navigate to TransferSaldoPage
                 final result = await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => TransferSaldoPage()),
+                  MaterialPageRoute(builder: (context) => MetodePay()),
                 );
                 // Optionally, handle result if needed
               },
