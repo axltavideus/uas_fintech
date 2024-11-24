@@ -9,6 +9,9 @@
 .history
 .svn/
 migrate_working_dir/
+.swift
+.cc
+.cmake
 
 # IntelliJ related
 *.iml
@@ -41,4 +44,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-android/app/google-services.json
+lib/firebase_options.dart
+macos/Flutter/GeneratedPluginRegistrant.swift
+windows/flutter/generated_plugin_registrant.cc
+windows/flutter/generated_plugins.cmake
