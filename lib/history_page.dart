@@ -156,10 +156,10 @@ class _HistoryPageState extends State<HistoryPage> {
                         children: [
                           Text(transaction['transactionType']),
                           SizedBox(height: 5),
-                          Text(
-                            transaction['amount'],
+                            Text(
+                            "Rp. ${NumberFormat('#,###').format(double.parse(transaction['amount'].replaceAll(RegExp(r'[^0-9.-]'), '')))}",
                             style: TextStyle(
-                              color: transaction['amount'].contains('+') ? Colors.green : Colors.redAccent,
+                              color: transaction['amount'].contains('-') ? Colors.redAccent : Colors.green,
                             ),
                           ),
                         ],

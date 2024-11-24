@@ -17,6 +17,7 @@ import 'history_page.dart';
 import 'transfer_saldo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -28,13 +29,29 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   int _currentBalance = 0;
   List<Map<String, dynamic>> _recentTransactions = []; 
+  String _name = '';
 
   @override
   void initState() {
     super.initState();
+    _checkLoginStatus();
     _loadTopUpAmount();
     _loadTransactionHistory();
+    _fetchUsername();
   }
+
+  void _checkLoginStatus() async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user == null) {
+    // Jika pengguna belum login, arahkan ke halaman login
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
+    });
+  }
+}
 
   Future<void> _loadTopUpAmount() async {
     final prefs = await SharedPreferences.getInstance();
@@ -53,6 +70,32 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _recentTransactions = history.reversed.take(1).map((item) => jsonDecode(item) as Map<String, dynamic>).toList();
     });
+  }
+
+  Future<void> _fetchUsername() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      try {
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+        if (userDoc.exists) {
+          setState(() {
+            _name = userDoc['name'] ?? 'No username found';
+          });
+        } else {
+          setState(() {
+            _name = 'User not found';
+          });
+        }
+      } catch (e) {
+        print('Error fetching username: $e');
+        setState(() {
+          _name = 'Error loading username';
+        });
+      }
+    }
   }
 
   void _onNavBarTap(int index) {
@@ -158,12 +201,12 @@ class _HomePageState extends State<HomePage> {
                         NetworkImage('https://via.placeholder.com/50'),
                   ),
                   SizedBox(width: 8.0),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Welcome back,",
+                      const Text("Welcome back,",
                           style: TextStyle(fontSize: 16, color: Colors.grey)),
-                      Text("Randy Interview",
+                      Text(_name,
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                     ],
@@ -373,9 +416,9 @@ class _HomePageState extends State<HomePage> {
                           Text(_recentTransactions[0]['transactionType']),
                           SizedBox(height: 5),
                           Text(
-                            _recentTransactions[0]['amount'],
+                            "Rp. ${NumberFormat('#,###').format(double.parse(_recentTransactions[0]['amount'].replaceAll(RegExp(r'[^0-9.-]'), '')))}",
                             style: TextStyle(
-                              color: _recentTransactions[0]['amount'].contains('+') ? Colors.green : Colors.redAccent,
+                              color: _recentTransactions[0]['amount'].contains('-') ? Colors.redAccent : Colors.green,
                             ),
                           ),
                         ],
