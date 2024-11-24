@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpPage extends StatelessWidget {
   SignUpPage({super.key});
@@ -10,8 +12,7 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   // Method to show warning dialog
   void _showWarningDialog(BuildContext context, String message) {
@@ -32,33 +33,60 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  final AuthService _authService = AuthService();
-
+  // Handle the Sign Up process
   void _handleSignUp(BuildContext context) async {
+    // Validate inputs
     if (emailController.text.isEmpty ||
         passwordController.text.isEmpty ||
         confirmPasswordController.text.isEmpty) {
       _showWarningDialog(context, 'Please fill in all fields');
       return;
     }
+
     if (passwordController.text != confirmPasswordController.text) {
       _showWarningDialog(context, 'Passwords do not match');
       return;
     }
 
-    // Proses registrasi
-    final user = await _authService.signUp(
-      emailController.text,
-      passwordController.text,
-    );
-
-    if (user != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
+    try {
+      // Register the user using Firebase Authentication
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
       );
-    } else {
-      _showWarningDialog(context, 'Sign Up failed. Please try again.');
+
+      User? user = userCredential.user;
+
+      if (user != null) {
+        // Store user data to Firestore
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'name': nameController.text,
+          'phone': phoneController.text,
+          'email': emailController.text,
+          'createdAt': FieldValue.serverTimestamp(),
+        }).then((_) {
+          print("User data successfully stored in Firestore");
+        }).catchError((e) {
+          print("Error while saving user data: $e");
+          _showWarningDialog(context, 'Failed to save user data');
+        });
+
+        // Optionally, store user name in SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('userName', nameController.text);
+
+        // Redirect to Login Page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginPage()),
+        );
+      } else {
+        _showWarningDialog(context, 'Sign Up failed. Please try again.');
+      }
+    } on FirebaseAuthException catch (e) {
+      // Handle Firebase authentication error
+      _showWarningDialog(context, e.message ?? 'Sign Up failed. Please try again.');
     }
   }
 
@@ -100,7 +128,7 @@ class SignUpPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Padding(
-                  padding:
+                  padding: 
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: TextField(
                     controller: nameController,
@@ -121,7 +149,7 @@ class SignUpPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Padding(
-                  padding:
+                  padding: 
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: TextField(
                     controller: phoneController,
@@ -143,7 +171,7 @@ class SignUpPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Padding(
-                  padding:
+                  padding: 
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: TextField(
                     controller: emailController,
@@ -165,7 +193,7 @@ class SignUpPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Padding(
-                  padding:
+                  padding: 
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: TextField(
                     controller: passwordController,
@@ -187,7 +215,7 @@ class SignUpPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Padding(
-                  padding:
+                  padding: 
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: TextField(
                     controller: confirmPasswordController,
@@ -206,7 +234,7 @@ class SignUpPage extends StatelessWidget {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 64, 137, 221),
-                  padding:
+                  padding: 
                       const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
