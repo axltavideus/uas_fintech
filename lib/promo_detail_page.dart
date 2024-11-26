@@ -200,3 +200,4 @@ class _PromoDetailPageState extends State<PromoDetailPage> {
     );
   }
 }
+
