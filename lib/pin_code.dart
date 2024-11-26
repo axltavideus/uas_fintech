@@ -195,7 +195,7 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ForgotPinPage(),
+                          builder: (context) => ForgotPinPage(fromPage: 'pin_lupa.dart',),
                         ),
                       );
                     },

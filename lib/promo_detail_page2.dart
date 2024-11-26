@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+
 class PromoDetailPage2 extends StatelessWidget {
   const PromoDetailPage2({super.key});
 
@@ -33,41 +33,71 @@ class PromoDetailPage2 extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Banner Promo
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              color: Colors.purple[700],
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "OMPET ZONA NYAMAN BAYAR",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+            // Banner Promo with Network Image
+            Stack(
+              children: [
+                Image.network(
+                  'https://img.lovepik.com/background/20211021/small/lovepik-e-commerce-promotion-background-image_401327963.jpg', // Ganti URL dengan link gambar yang diinginkan
+                  width: double.infinity,
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
+                Positioned(
+                  left: 16,
+                  bottom: 16,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "OMPET ZONA NYAMAN BAYAR",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 4.0,
+                              color: Colors.black,
+                              offset: Offset(1, 1),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Cashback s.d. 50,000 Rupiah",
+                        style: TextStyle(
+                          color: Colors.yellow[200],
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          shadows: const [
+                            Shadow(
+                              blurRadius: 4.0,
+                              color: Colors.black,
+                              offset: Offset(1, 1),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        "Oktober 2024",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 4.0,
+                              color: Colors.black,
+                              offset: Offset(1, 1),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    "Cashback s.d. 50,000 Rupiah",
-                    style: TextStyle(
-                      color: Colors.yellow[200],
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    "Oktober 2024",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
 
             // Promo List
@@ -85,7 +115,7 @@ class PromoDetailPage2 extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    "Siap buat hunting promo November bareng Ompet? Mulai dari bayar tagihan, beli pulsa, paket data, token PLN, hingga top up e-Money semua jadi lebih hemat.",
+                    "Siap buat hunting promo November bareng Ompet? Mulai bayar pake Ompet agar semua jadi lebih hemat.",
                   ),
                   const SizedBox(height: 16),
                   TextButton(
@@ -113,10 +143,10 @@ class PromoDetailPage2 extends StatelessWidget {
                     ),
                     children: [
                       Text(
-                        "1. Periode promo Pulsa dan Paket Data: Selasa - Kamis di bulan November 2024\n"
-                        "2. Periode promo Token PLN: Jumat - Minggu di bulan November 2024\n"
-                        "3. Periode promo Tagihan: 3-12, 19-30 November 2024\n"
-                        "4. Periode promo Angsuran kredit: 4-6, 24-30 November 2024",
+                        "1. Periode promo berlaku setiap : Selasa dan Kamis di bulan November 2024\n"
+                        "2. Promo tidak bisa digabung dengan promo lain\n"
+                        "3. Promo hanya berlaku di daerah DKI Jakarta\n"
+                        "4. Promo cashback terbatas setiap harinya",
                         style: TextStyle(fontSize: 14),
                       ),
                     ],
