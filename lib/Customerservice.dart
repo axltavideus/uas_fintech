@@ -163,12 +163,12 @@ class _CustomerServiceScreenState extends State<CustomerServiceScreen> {
                   height: 40, // Tinggi kotak
                   decoration: BoxDecoration(
                     color: Colors.blue,
-                    borderRadius: BorderRadius.circular(8), // Sudut membulat sedikit
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Center(
                     child: Text(
                       'D', 
-                      style: TextStyle(color: Colors.white, fontSize: 20), // Ukuran huruf di dalam kotak
+                      style: TextStyle(color: Colors.white, fontSize: 20), 
                     ),
                   ),
                 ),
