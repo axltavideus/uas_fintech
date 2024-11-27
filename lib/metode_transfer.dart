@@ -13,7 +13,7 @@ class MetodePay extends StatelessWidget {
           icon: Icon(Iconsax.arrow_left_2),
           color: Colors.white,
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => HomePage()),
             );
@@ -40,10 +40,14 @@ class MetodePay extends StatelessWidget {
             trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey),
             contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),  
             onTap: () {
-              Navigator.pushReplacement(
+              Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => TransferSaldoPage()),
-              );
+              ).then((result) {
+                if (result == true) {
+                  Navigator.pop(context, true);
+                }
+              });
             },
           ),
           Divider(color: Colors.grey), 
@@ -59,10 +63,14 @@ class MetodePay extends StatelessWidget {
             trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey),
             contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),  
             onTap: () {
-                Navigator.pushReplacement(
+              Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => TransferSaldoPage()),
-              );
+              ).then((result) {
+                if (result == true) {
+                  Navigator.pop(context, true);
+                }
+              });
             },
           ),
           Divider(color: Colors.grey), 
@@ -78,10 +86,14 @@ class MetodePay extends StatelessWidget {
             trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey),
             contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),  
             onTap: () {
-                Navigator.pushReplacement(
+              Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => TransferSaldoPage()),
-              );
+              ).then((result) {
+                if (result == true) {
+                  Navigator.pop(context, true);
+                }
+              });
             },
           ),
           Divider(color: Colors.grey), 
