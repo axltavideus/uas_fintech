@@ -3,7 +3,6 @@ description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
-
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
 # followed by an optional build number separated by a +.
@@ -40,6 +39,10 @@ dependencies:
   permission_handler: ^10.0.0
   shared_preferences: ^2.3.3
   intl: ^0.18.0
+  firebase_core: ^3.8.0
+  firebase_auth: ^5.3.3
+  cloud_firestore: ^5.5.0
+  qr_flutter: ^4.0.0
 
 dev_dependencies:
   flutter_test:
