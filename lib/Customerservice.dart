@@ -13,24 +13,30 @@ class _CustomerServiceScreenState extends State<CustomerServiceScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<ChatBubble> _messages = [
     ChatBubble(
-        message:
-            'Halo, saya Axel, Customer Service dari DOMPT. Selamat datang!',
-        isSentByAssistant: true),
+      message: 'Halo, saya Axel, Customer Service dari DOMPT. Selamat datang!',
+      isSentByAssistant: true,
+    ),
     ChatBubble(
-        message: 'Ada yang bisa saya bantu hari ini?', isSentByAssistant: true),
+      message: 'Ada yang bisa saya bantu hari ini?', 
+      isSentByAssistant: true,
+    ),
   ];
 
   void _sendMessage() {
-    final String userMessage = _controller.text;
+    final String userMessage = _controller.text.trim();
     if (userMessage.isEmpty) return;
 
+    // Add user message
     setState(() {
-      _messages.add(ChatBubble(message: userMessage, isSentByAssistant: false));
+      _messages.add(ChatBubble(
+        message: userMessage, 
+        isSentByAssistant: false
+      ));
       _controller.clear();
     });
 
-    // Simulating a response from the assistant
-    Future.delayed(Duration(seconds: 1), () {
+    // Add assistant response
+    Future.delayed(const Duration(milliseconds: 500), () {
       setState(() {
         _messages.add(ChatBubble(
           message: _generateResponse(userMessage),
@@ -41,78 +47,51 @@ class _CustomerServiceScreenState extends State<CustomerServiceScreen> {
   }
 
   String _generateResponse(String userMessage) {
-    if (userMessage.toLowerCase().contains('help')) {
-      return 'Tentu! Saya di sini untuk membantu. Apakah Anda membutuhkan bantuan dengan akun Anda, transaksi, atau pembayaran?';
-    } else if (userMessage.toLowerCase().contains('phone')) {
-      return 'Anda dapat menghubungi Customer Service kami di +62 877-8249-8390. Kami siap membantu Anda!';
-    } else if (userMessage.toLowerCase().contains('how are you')) {
-      return 'Saya baik, terima kasih! Bagaimana dengan Anda? Semoga hari Anda menyenankan!';
-    } else if (userMessage.toLowerCase().contains('balance')) {
-      return '''
+    userMessage = userMessage.toLowerCase();
+    
+    Map<String, String> responses = {
+      'help': 'Tentu! Saya di sini untuk membantu. Apakah Anda membutuhkan bantuan dengan akun Anda, transaksi, atau pembayaran?',
+      'phone': 'Anda dapat menghubungi Customer Service kami di +62 877-8249-8390. Kami siap membantu Anda!',
+      'how are you': 'Saya baik, terima kasih! Bagaimana dengan Anda? Semoga hari Anda menyenankan!',
+      'balance': '''
         Untuk mengecek saldo Anda, ikuti langkah berikut:
         1. Buka aplikasi dan login ke akun Anda.
         2. Pilih menu "Dashboard" atau "Saldo".
         3. Anda akan melihat saldo akun Anda di halaman tersebut.
-        Jika ada masalah, Anda bisa menghubungi kami untuk bantuan lebih lanjut.
-      ''';
-    } else if (userMessage.toLowerCase().contains('transaction')) {
-      return '''
+      ''',
+      'transaction': '''
         Untuk mengecek status transaksi:
         1. Buka aplikasi dan login.
         2. Pilih menu "Riwayat Transaksi" di dashboard.
-        3. Di halaman tersebut, Anda akan melihat status transaksi yang telah Anda lakukan.
-        Jika statusnya tidak sesuai, silakan hubungi kami segera.
-      ''';
-    } else if (userMessage.toLowerCase().contains('payment method')) {
-      return '''
-        Kami mendukung berbagai metode pembayaran, seperti:
+        3. Di halaman tersebut, Anda akan melihat status transaksi.
+      ''',
+      'payment method': '''
+        Kami mendukung berbagai metode pembayaran:
         - Transfer bank
-        - Kartu kredit
         - Dompet digital
-        Pilih metode pembayaran yang Anda inginkan saat checkout dan ikuti petunjuknya.
-      ''';
-    } else if (userMessage.toLowerCase().contains('security')) {
-      return '''
-        Keamanan Anda adalah prioritas kami. Berikut langkah-langkah yang kami lakukan:
-        - Enkripsi end-to-end untuk melindungi data transaksi Anda.
-        - Verifikasi dua langkah (2FA) untuk akses akun yang lebih aman.
-        - Jika Anda merasa akun Anda telah terkompromi, segera ubah password Anda.
-      ''';
-    } else if (userMessage.toLowerCase().contains('refund')) {
-      return '''
-        Untuk permohonan refund:
-        1. Kunjungi halaman "Bantuan" di aplikasi kami.
-        2. Pilih opsi "Ajukan Refund".
-        3. Isi formulir permohonan refund dengan informasi transaksi Anda.
-        Tim kami akan memprosesnya dan memberi tahu Anda hasilnya dalam waktu 1-3 hari kerja.
-      ''';
-    } else if (userMessage.toLowerCase().contains('loan')) {
-      return '''
-        Untuk mengajukan pinjaman:
-        1. Buka aplikasi dan masuk ke akun Anda.
-        2. Pilih menu "Pinjaman" dan isi data yang diminta.
-        3. Tim kami akan mengevaluasi pengajuan Anda dan memberikan keputusan dalam waktu 24 jam.
-      ''';
-    } else if (userMessage.toLowerCase().contains('account')) {
-      return '''
-        Jika Anda ingin mengubah data akun, ikuti langkah berikut:
-        1. Buka aplikasi dan login ke akun Anda.
-        2. Pilih menu "Pengaturan".
-        3. Di halaman pengaturan, pilih "Edit Profil" dan ubah informasi Anda sesuai kebutuhan.
-        Jangan lupa untuk menyimpan perubahan!
-      ''';
-    } else {
-      return 'Maaf, saya tidak mengerti. Bisa dijelaskan lebih lanjut atau pilih salah satu topik di bawah?';
+        - Qr payment
+      ''',
+    };
+
+    // Check for exact or partial matches
+    for (var entry in responses.entries) {
+      if (userMessage.contains(entry.key)) {
+        return entry.value;
+      }
     }
+
+    return 'Maaf, saya tidak mengerti. Bisa jelaskan lebih lanjut?';
   }
 
   void _sendSuggestedMessage(String message) {
     setState(() {
-      _messages.add(ChatBubble(message: message, isSentByAssistant: false));
+      _messages.add(ChatBubble(
+        message: message, 
+        isSentByAssistant: false
+      ));
     });
 
-    // Simulating a response from the assistant
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       setState(() {
         _messages.add(ChatBubble(
           message: _generateResponse(message),
@@ -127,14 +106,19 @@ class _CustomerServiceScreenState extends State<CustomerServiceScreen> {
       _selectedIndex = index;
     });
 
-    if (index == 0) {
-      Navigator.pushReplacementNamed(context, '/home');
-    } else if (index == 1) {
-      Navigator.pushReplacementNamed(context, '/pay');
-    } else if (index == 2) {
-      Navigator.pushReplacementNamed(context, '/history');
-    } else if (index == 3) {
-      Navigator.pushReplacementNamed(context, '/profile');
+    switch (index) {
+      case 0:
+        Navigator.pushReplacementNamed(context, '/home');
+        break;
+      case 1:
+        Navigator.pushReplacementNamed(context, '/pay');
+        break;
+      case 2:
+        Navigator.pushReplacementNamed(context, '/history');
+        break;
+      case 3:
+        Navigator.pushReplacementNamed(context, '/profile');
+        break;
     }
   }
 
@@ -147,20 +131,19 @@ class _CustomerServiceScreenState extends State<CustomerServiceScreen> {
         backgroundColor: Colors.grey[700],
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
+      body: Column(
+        children: [
+          // Agent Info Header
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
               children: [
                 Container(
-                  width: 40, // Lebar kotak
-                  height: 40, // Tinggi kotak
+                  width: 40,
+                  height: 40,
                   decoration: BoxDecoration(
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(8),
@@ -168,14 +151,14 @@ class _CustomerServiceScreenState extends State<CustomerServiceScreen> {
                   child: const Center(
                     child: Text(
                       'D', 
-                      style: TextStyle(color: Colors.white, fontSize: 20), 
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text(
                       'Axel Siap membantu',
                       style: TextStyle(
@@ -188,65 +171,77 @@ class _CustomerServiceScreenState extends State<CustomerServiceScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: ListView(
-                children: _messages,
-              ),
+          ),
+
+          // Chat Messages
+          Expanded(
+            child: ListView.builder(
+              reverse: true,
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                return _messages[_messages.length - 1 - index];
+              },
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _controller,
-                      decoration: InputDecoration(
-                        hintText: 'Ketik pesan...',
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide.none,
-                        ),
+          ),
+
+          // Message Input
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    decoration: InputDecoration(
+                      hintText: 'Ketik pesan...',
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none,
                       ),
                     ),
+                    onSubmitted: (_) => _sendMessage(),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.send),
-                    onPressed: _sendMessage,
-                  ),
-                ],
-              ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.send),
+                  onPressed: _sendMessage,
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => _sendSuggestedMessage('help'),
-                    child: const Text('Help'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => _sendSuggestedMessage('phone'),
-                    child: const Text('Contact Us'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => _sendSuggestedMessage('balance'),
-                    child: const Text('Check Balance'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => _sendSuggestedMessage('transaction'),
-                    child: const Text('Transaction History'),
-                  ),
-                ],
-              ),
+          ),
+
+          // Quick Action Buttons
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GridView.count(
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              childAspectRatio: 3,
+              children: [
+                ElevatedButton(
+                  onPressed: () => _sendSuggestedMessage('Help'),
+                  child: const Text('Help'),
+                ),
+                ElevatedButton(
+                  onPressed: () => _sendSuggestedMessage('Contact Phone'),
+                  child: const Text('Contact Us'),
+                ),
+                ElevatedButton(
+                  onPressed: () => _sendSuggestedMessage('Check Balance'),
+                  child: const Text('Check Balance'),
+                ),
+                ElevatedButton(
+                  onPressed: () => _sendSuggestedMessage('Transaction History'),
+                  child: const Text('Transaction History'),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavBar(
         selectedIndex: _selectedIndex,
@@ -269,16 +264,19 @@ class ChatBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
       child: Align(
-        alignment: isSentByAssistant
-            ? Alignment.centerLeft
+        alignment: isSentByAssistant 
+            ? Alignment.centerLeft 
             : Alignment.centerRight,
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.7,
+          ),
+          padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
             color: isSentByAssistant ? Colors.blue : Colors.green,
-            borderRadius: BorderRadius.circular(8), // Kotak
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
             message,
