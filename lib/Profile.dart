@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'bottom_nav_bar.dart';
+import 'package:iconsax/iconsax.dart';
 import 'customerservice.dart';
-import 'pin_lupa.dart'; // Import untuk ForgotPinPage
+import 'pin_lupa.dart';
+import 'sign_up.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -11,7 +13,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  int _selectedIndex = 3; 
+  int _selectedIndex = 3;
 
   void _onNavBarTap(int index) {
     setState(() {
@@ -24,64 +26,88 @@ class _ProfilePageState extends State<ProfilePage> {
       Navigator.pushReplacementNamed(context, '/pay');
     } else if (index == 2) {
       Navigator.pushReplacementNamed(context, '/history');
-    } else if (index == 3) {
-    }
+    } else if (index == 3) {}
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        title: const Text("Profile Page"),
-        backgroundColor: Colors.blue,
-      ),
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: Colors.grey[200],
+    appBar: AppBar(
+      title: const Text("Profile Page"),
+      backgroundColor: Colors.white,
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.exit_to_app_rounded),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SignUpPage()),
+            );
+          },
+        ),
+      ],
+    ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color.fromARGB(255, 35, 43, 156), Color.fromARGB(255, 56, 68, 244)],
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20, horizontal: 115),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [
+                    Color.fromARGB(255, 35, 43, 156),
+                    Color.fromARGB(255, 56, 68, 244),
+                  ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(20),
-                ),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 2,
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+                
               ),
               child: Column(
                 children: [
                   const CircleAvatar(
                     radius: 50,
-                    backgroundImage:
-                        AssetImage('assets/profile_picture.jpg'), 
+                    backgroundImage: AssetImage('assets/profile_picture.jpg'),
                   ),
                   const SizedBox(height: 10),
                   const Text(
                     'Randy',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 28,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 10),
                   ElevatedButton.icon(
                     onPressed: () {},
                     icon: const Icon(Icons.qr_code, color: Colors.white),
                     label: const Text(
                       "QR SAYA",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black54,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 25, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
                   ),
+                
                 ],
               ),
             ),
@@ -104,7 +130,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ForgotPinPage(fromPage: 'profile'),
+                          builder: (context) =>
+                              const ForgotPinPage(fromPage: 'profile'),
                         ),
                       );
                     },
