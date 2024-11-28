@@ -8,7 +8,7 @@ import 'profile.dart';
 import 'topup_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'login.dart';
-
+import 'landing_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _checkPermissions();
@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
         '/topup': (context) => TopUpPage(), // Add this line
         '/pay': (context) => CameraPage(),
         '/login': (context) => LoginPage(),
+        '/landing': (context) => LandingPage(),
       },
     );
   }
