@@ -18,6 +18,8 @@ import 'transfer_saldo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'promo_detail_page1.dart';
+import 'promo_detail_page2.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -172,15 +174,11 @@ class _HomePageState extends State<HomePage> {
   ];
 
   final List<Widget> promoPages = [
-    PromoDetailPage(),
-    // Replace PromoDetailPage1 and PromoDetailPage2 with placeholders if they're missing
-    Scaffold(
-        appBar: AppBar(title: Text("Promo Detail 1 Placeholder")),
-        body: Center(child: Text("Promo Detail 1"))),
-    Scaffold(
-        appBar: AppBar(title: Text("Promo Detail 2 Placeholder")),
-        body: Center(child: Text("Promo Detail 2"))),
+    const PromoDetailPage(),      // First promo page
+    const PromoDetailPage1(),     // Second promo page
+    const PromoDetailPage2(),           // Third promo page
   ];
+
 
   @override
   Widget build(BuildContext context) {
