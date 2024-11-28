@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                   if (user != null) {
                     await FirebaseAuth.instance.signOut();
                   }
-                  Navigator.pushReplacementNamed(context, '/login');
+                  Navigator.pushReplacementNamed(context, '/landing');
                 });
               },
               child: Text("Keluar"),
@@ -218,7 +218,7 @@ class _HomePageState extends State<HomePage> {
                         final user = FirebaseAuth.instance.currentUser;
                         if (user != null) {
                           await FirebaseAuth.instance.signOut();
-                          Navigator.pushReplacementNamed(context, '/login');
+                          Navigator.pushReplacementNamed(context, '/landing');
                         } else {
                           Navigator.pushReplacementNamed(context, '/login');
                         }
@@ -435,7 +435,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               const SizedBox(height: 16.0),
 
-              // Recommendation Section
+// Recommendation Section
               const Text("Rekomendasi Pilihan",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8.0),
@@ -446,16 +446,20 @@ class _HomePageState extends State<HomePage> {
                   enableInfiniteScroll: true,
                   autoPlay: true,
                 ),
-                items: imgList.map((imageUrl) {
+                items: imgList.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  String imageUrl = entry.value;
+
                   return Builder(
                     builder: (BuildContext context) {
                       return GestureDetector(
                         onTap: () {
-                          // Navigate to PromoDetailPage when tapped
+                          // Navigasi ke halaman promo berdasarkan index
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PromoDetailPage()),
+                              builder: (context) => promoPages[index],
+                            ),
                           );
                         },
                         child: Container(
@@ -464,7 +468,7 @@ class _HomePageState extends State<HomePage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image: NetworkImage(imageUrl),
+                              image: NetworkImage(imageUrl), // Use NetworkImage for URLs
                               fit: BoxFit.cover,
                             ),
                           ),
