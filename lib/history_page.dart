@@ -113,7 +113,7 @@ class _HistoryPageState extends State<HistoryPage> {
             child: ListView.builder(
               itemCount: _filteredHistory.length,
               itemBuilder: (context, index) {
-                final transaction = _transactionHistory[index];
+                final transaction = _filteredHistory[index];
                 return Column(
                   children: [
                     ListTile(
@@ -127,6 +127,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               transactionType: transaction['transactionType'],
                               sourceAccount: transaction['sourceAccount'],
                               amount: transaction['amount'],
+                              transactionDate: transaction['date'],
                             ),
                           ),
                         );
