@@ -18,6 +18,8 @@ import 'transfer_saldo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'promo_detail_page1.dart';
+import 'promo_detail_page2.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -139,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                   if (user != null) {
                     await FirebaseAuth.instance.signOut();
                   }
-                  Navigator.pushReplacementNamed(context, '/login');
+                  Navigator.pushReplacementNamed(context, '/landing');
                 });
               },
               child: Text("Keluar"),
@@ -172,15 +174,11 @@ class _HomePageState extends State<HomePage> {
   ];
 
   final List<Widget> promoPages = [
-    PromoDetailPage(),
-    // Replace PromoDetailPage1 and PromoDetailPage2 with placeholders if they're missing
-    Scaffold(
-        appBar: AppBar(title: Text("Promo Detail 1 Placeholder")),
-        body: Center(child: Text("Promo Detail 1"))),
-    Scaffold(
-        appBar: AppBar(title: Text("Promo Detail 2 Placeholder")),
-        body: Center(child: Text("Promo Detail 2"))),
+    const PromoDetailPage(),      // First promo page
+    const PromoDetailPage1(),     // Second promo page
+    const PromoDetailPage2(),           // Third promo page
   ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +218,7 @@ class _HomePageState extends State<HomePage> {
                         final user = FirebaseAuth.instance.currentUser;
                         if (user != null) {
                           await FirebaseAuth.instance.signOut();
-                          Navigator.pushReplacementNamed(context, '/login');
+                          Navigator.pushReplacementNamed(context, '/landing');
                         } else {
                           Navigator.pushReplacementNamed(context, '/login');
                         }
@@ -437,7 +435,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               const SizedBox(height: 16.0),
 
-              // Recommendation Section
+// Recommendation Section
               const Text("Rekomendasi Pilihan",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8.0),
@@ -448,16 +446,20 @@ class _HomePageState extends State<HomePage> {
                   enableInfiniteScroll: true,
                   autoPlay: true,
                 ),
-                items: imgList.map((imageUrl) {
+                items: imgList.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  String imageUrl = entry.value;
+
                   return Builder(
                     builder: (BuildContext context) {
                       return GestureDetector(
                         onTap: () {
-                          // Navigate to PromoDetailPage when tapped
+                          // Navigasi ke halaman promo berdasarkan index
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PromoDetailPage()),
+                              builder: (context) => promoPages[index],
+                            ),
                           );
                         },
                         child: Container(
@@ -466,7 +468,7 @@ class _HomePageState extends State<HomePage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image: NetworkImage(imageUrl),
+                              image: NetworkImage(imageUrl), // Use NetworkImage for URLs
                               fit: BoxFit.cover,
                             ),
                           ),

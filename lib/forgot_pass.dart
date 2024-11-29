@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class NewPasswordPage extends StatefulWidget {
   const NewPasswordPage({super.key});
@@ -8,11 +9,13 @@ class NewPasswordPage extends StatefulWidget {
 }
 
 class _NewPasswordPageState extends State<NewPasswordPage> {
+  final _emailController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  void _setNewPassword() {
-    if (_newPasswordController.text.isEmpty ||
+  void _setNewPassword() async {
+    if (_emailController.text.isEmpty ||
+        _newPasswordController.text.isEmpty ||
         _confirmPasswordController.text.isEmpty) {
       showDialog(
         context: context,
@@ -42,8 +45,45 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
         ),
       );
     } else {
-      // Lakukan proses pengaturan ulang password di sini
-      Navigator.pop(context); // Setelah selesai, kembali ke halaman login
+      try {
+        // Kirim email reset password menggunakan Firebase Auth
+        await FirebaseAuth.instance
+            .sendPasswordResetEmail(email: _emailController.text);
+
+        // Tampilkan pesan sukses
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("Success"),
+            content: const Text(
+                "A password reset link has been sent to your email."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(); // Kembali ke halaman login
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          ),
+        );
+      } on FirebaseAuthException catch (e) {
+        // Tangani error Firebase
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("Error"),
+            content: Text(e.message ?? "An error occurred."),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text("OK"),
+              ),
+            ],
+          ),
+        );
+      }
     }
   }
 
@@ -52,7 +92,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('New Password'),
+        title: const Text('Forgot Password'),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
@@ -72,6 +112,26 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                 color: Colors.grey,
               ),
               const SizedBox(height: 30),
+
+              // Email Input Card
+              Card(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: TextField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: const InputDecoration(
+                      hintText: 'Enter your email',
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
 
               // New Password Input Card
               Card(
