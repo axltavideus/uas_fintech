@@ -152,31 +152,31 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  final List<Map<String, String>> otherPeople = [
+final List<Map<String, String>> otherPeople = [
     {
       "name": "Alice",
-      "imageUrl": "https://via.placeholder.com/50",
+      "imageUrl": "https://i1.sndcdn.com/artworks-Z6PQHY5GG48AUapX-K1mZjQ-t500x500.jpg",
     },
     {
       "name": "Bob",
-      "imageUrl": "https://via.placeholder.com/50",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxwqQTDpoNYoWPdpc1Zc1y9LQ3M_bkz12j3g&s",
     },
     {
       "name": "Charlie",
-      "imageUrl": "https://via.placeholder.com/50",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2y84z8vEBd1CWCTTj9oa38_CUI3HMA8dWYg&s",
     },
   ];
 
   final List<String> imgList = [
     'https://bankmega.com/media/filer_public/7c/fd/7cfdf499-4b4f-42a8-abfd-a2f3c4cda8e1/0d-bm-banner-shopee.jpg',
-    'https://ichef.bbci.co.uk/news/1024/branded_news/14E77/production/_133532658_ukraine-russia-promo.png',
-    'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgTr074wf0VhmJLJHRpGKcxxkeo34RcDV3btrVOMzzRCovMlgr_nXOuoqdmma0eHyqY0toO_i5RLNM2YjrnahYXNw_or7h--tEDsmImYjOYQqmbr4wd7N_LULrVVckyAV5Hxs5ceyb4ocjOJPkevkSDSINZ5nCxg9SwfsmfqkF0U1cikdDO-sWZ1pQONA/s800/smart-power-all-50-sim-registered-promo.png',
+    'https://blog.hemat.id/wp-content/uploads/2024/02/jenis-daging-ayam-24-1.png',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi0GYk7nZwg8caU8gzGR3gHFLtXohbHCJccg&s',
   ];
 
   final List<Widget> promoPages = [
     const PromoDetailPage(),      // First promo page
     const PromoDetailPage1(),     // Second promo page
-    const PromoDetailPage2(),           // Third promo page
+    const PromoDetailPage2(),      // Third promo page
   ];
 
 
@@ -260,70 +260,106 @@ class _HomePageState extends State<HomePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Container(
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Iconsax.add_circle,
-                                color: Color.fromARGB(255, 51, 62, 221)),
-                            onPressed: () async {
-                              final result = await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TopUpPage()),
-                              );
-                              if (result == true) {
-                                _loadTopUpAmount(); // Update the displayed balance
-                                _loadTransactionHistory();  // Reload transaction history
-                              }
-                            },
-                          ),
+                        // Top-Up Button
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                              ),
+                              child: IconButton(
+                                icon: const Icon(Iconsax.add_circle,
+                                    color: Color.fromARGB(255, 51, 62, 221)),
+                                onPressed: () async {
+                                  final result = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TopUpPage()),
+                                  );
+                                  if (result == true) {
+                                    _loadTopUpAmount(); // Update the displayed balance
+                                    _loadTransactionHistory();  // Reload transaction history
+                                  }
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 4.0),
+                            const Text(
+                              'Top-Up',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
                         ),
-                        Container(
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Iconsax.money_send,
-                                color: Color.fromARGB(255, 51, 62, 221)),
-                            onPressed: () async {
-                              final result = await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MetodePay()),
-                              );
-                              if (result == true) {
-                                _loadTopUpAmount();
-                                _loadTransactionHistory(); 
-                              }
-                            },
-                          ),
+                        
+                        // Transfer Button
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                              ),
+                              child: IconButton(
+                                icon: const Icon(Iconsax.money_send,
+                                    color: Color.fromARGB(255, 51, 62, 221)),
+                                onPressed: () async {
+                                  final result = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MetodePay()),
+                                  );
+                                  if (result == true) {
+                                    _loadTopUpAmount();
+                                    _loadTransactionHistory(); 
+                                  }
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 4.0),
+                            const Text(
+                              'Transfer',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
                         ),
-                        Container(
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Iconsax.scan_barcode,
-                                color: Color.fromARGB(255, 51, 62, 221)),
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CameraPage()),
-                              );
-                            },
-                          ),
+                        
+                        // Scan Button
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                              ),
+                              child: IconButton(
+                                icon: const Icon(Iconsax.scan_barcode,
+                                    color: Color.fromARGB(255, 51, 62, 221)),
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CameraPage()),
+                                  );
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 4.0),
+                            const Text(
+                              'Scan',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
+
 
               const SizedBox(height: 16.0),
 
@@ -350,7 +386,7 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         children: [
                           CircleAvatar(
-                            backgroundImage: NetworkImage(person["imageUrl"]!),
+                            backgroundImage: NetworkImage(person["imageUrl"]!), // This will load the network image
                           ),
                           const SizedBox(height: 4.0),
                           Text(person["name"]!),

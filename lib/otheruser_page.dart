@@ -8,6 +8,22 @@ class OtherUserPage extends StatelessWidget {
   const OtherUserPage({Key? key, required this.name, required this.imageUrl})
       : super(key: key);
 
+  Widget customButton(String text, VoidCallback onPressed) {
+    return SizedBox(
+      width: 150,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 51, 62, 221),
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(fontSize: 16, color: Colors.white),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +41,7 @@ class OtherUserPage extends StatelessWidget {
             // Profile Picture
             CircleAvatar(
               radius: 70,
-              backgroundImage: AssetImage(imageUrl),
+              backgroundImage: NetworkImage(imageUrl), // Use NetworkImage for online URLs
             ),
             const SizedBox(height: 20),
 
@@ -43,40 +59,46 @@ class OtherUserPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: 150, // Set fixed width for buttons
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Add functionality for Request button
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 51, 62, 221),
-                    ),
-                    child: const Text(
-                      'Request',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 20),
-                SizedBox(
-                  width: 150, // Set fixed width for buttons
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => TransferSaldoPage()),
+                customButton('Request', () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("QR Code Saya"),
+                        content: Image.network(
+                          "https://1.bp.blogspot.com/-dHN4KiD3dsU/XRxU5JRV7DI/AAAAAAAAAz4/u1ynpCMIuKwZMA642dHEoXFVKuHQbJvwgCEwYBhgL/s1600/qr-code.png",
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                                      : null,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text("Tutup"),
+                          ),
+                        ],
                       );
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 51, 62, 221),
-                    ),
-                    child: const Text(
-                      'Pay',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                  ),
-                ),
+                  );
+                }),
+                const SizedBox(width: 20),
+                customButton('Pay', () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => TransferSaldoPage()),
+                  );
+                }),
               ],
             ),
           ],
