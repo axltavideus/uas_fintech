@@ -415,6 +415,7 @@ final List<Map<String, String>> otherPeople = [
                           transactionType: latestTransaction['transactionType'],
                           sourceAccount: latestTransaction['sourceAccount'],
                           amount: latestTransaction['amount'],
+                          transactionDate: latestTransaction['date'],
                         ),
                       ),
                     );
