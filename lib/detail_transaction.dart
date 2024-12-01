@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:intl/intl.dart'; 
+import 'package:intl/intl.dart';
 
 class DetailTransaction extends StatelessWidget {
   final String recipient;
@@ -8,6 +8,7 @@ class DetailTransaction extends StatelessWidget {
   final String transactionType;
   final String sourceAccount;
   final String amount;
+  final String transactionDate; 
 
   const DetailTransaction({
     required this.recipient,
@@ -15,6 +16,7 @@ class DetailTransaction extends StatelessWidget {
     required this.transactionType,
     required this.sourceAccount,
     required this.amount,
+    required this.transactionDate,
   });
 
   @override
@@ -50,13 +52,21 @@ class DetailTransaction extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            // Format amount using the NumberFormat class
+            Text(
+              // Format tanggal transaksi
+              '${DateFormat('dd MMM yyyy, HH:mm').format(DateTime.parse(transactionDate))}',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(height: 10),
             Text(
               "Rp. ${NumberFormat('#,###').format(double.parse(amount.replaceAll(RegExp(r'[^0-9.-]'), '')))}",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: amount.contains('-') ? Colors.redAccent : Colors.green, // Change color based on amount
+                color: amount.contains('-') ? Colors.redAccent : Colors.green,
               ),
             ),
             SizedBox(height: 50),
